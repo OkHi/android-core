@@ -9,7 +9,7 @@ public class Constant {
     public static String PROD_BASE_URL = "https://api.okhi.io/" + API_VERSION;
     public static String ANONYMOUS_SIGN_IN_ENDPOINT = "/auth/anonymous-signin";
 
-    public static int TIME_OUT = 15;
+    public static int TIME_OUT = 30;
     public static TimeUnit TIME_OUT_UNIT = TimeUnit.SECONDS;
     public static final int INVALID_PHONE_RESPONSE_CODE = 400;
     public static final int UNAUTHORIZED_RESPONSE_CODE = 401;
