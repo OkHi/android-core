@@ -1,2 +1,3 @@
 rootProject.name='OkHi Android Core'
 include ':app'
+include ':android-core'
