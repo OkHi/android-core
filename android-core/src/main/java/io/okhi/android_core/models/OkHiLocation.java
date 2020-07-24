@@ -1,21 +1,29 @@
 package io.okhi.android_core.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class OkHiLocation implements Serializable {
     private String id;
-    private String token;
-    private String placeId;
-    private String plusCode;
-    private String propertyName;
-    private String streetName;
-    private String title;
-    private String subtitle;
-    private String directions;
-    private String otherInformation;
-    private String url;
-    private String createdAt;
-    private String photo;
-    private OkHiGeoPoint geoPoint;
-    private OkHiStreetView streetView;
+    private double lat;
+    private double lon;
+
+    public OkHiLocation(@NonNull String id, @NonNull double lat, @NonNull double lon) {
+        this.id = id;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public String getId() {
+        return id;
+    }
 }
