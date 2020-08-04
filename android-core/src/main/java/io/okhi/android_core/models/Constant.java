@@ -3,7 +3,8 @@ package io.okhi.android_core.models;
 import java.util.concurrent.TimeUnit;
 
 public class Constant {
-    public static String API_VERSION = "v5";
+    public static String OKHI_DEV_MODE = "dev";
+    private static String API_VERSION = "v5";
     public static String DEV_BASE_URL = "https://dev-api.okhi.io/" + API_VERSION;
     public static String SANDBOX_BASE_URL = "https://sandbox-api.okhi.io/" + API_VERSION;
     public static String PROD_BASE_URL = "https://api.okhi.io/" + API_VERSION;

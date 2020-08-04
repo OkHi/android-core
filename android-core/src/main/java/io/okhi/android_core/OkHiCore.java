@@ -11,9 +11,9 @@ import java.util.Objects;
 
 import io.okhi.android_core.interfaces.OkHiSignInRequestHandler;
 import io.okhi.android_core.models.Constant;
-import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiException;
-import io.okhi.android_core.models.OkHiMode;
+import io.okhi.okhi_auth.OkHiAuth;
+import io.okhi.okhi_auth.OkHiMode;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -29,7 +29,7 @@ public class OkHiCore {
 
     protected OkHiCore(@NonNull OkHiAuth auth) {
         this.auth = auth;
-        if (auth.getContext().getMode().equals(OkHiMode.DEV)) {
+        if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
             BASE_URL = Constant.DEV_BASE_URL;
         } else if (auth.getContext().getMode().equals(OkHiMode.PROD)) {
             BASE_URL = Constant.PROD_BASE_URL;
