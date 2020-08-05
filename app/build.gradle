@@ -37,5 +37,4 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':android-core')
-    implementation 'com.github.OkHi:android-auth:v1.0.1'
 }
