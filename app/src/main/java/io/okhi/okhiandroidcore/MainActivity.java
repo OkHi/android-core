@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import io.okhi.okhi_auth.OkHiAppContext;
-import io.okhi.okhi_auth.OkHiAuth;
-import io.okhi.okhi_auth.OkHiDeveloperType;
-import io.okhi.okhi_auth.OkHiMode;
-import io.okhi.okhi_auth.OkHiPlatformType;
+import io.okhi.android_core.models.OkHiAppContext;
+import io.okhi.android_core.models.OkHiAuth;
+import io.okhi.android_core.models.OkHiDeveloperType;
+import io.okhi.android_core.models.OkHiPlatformType;
 
 public class MainActivity extends AppCompatActivity {
 
