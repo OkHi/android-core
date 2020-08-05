@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import io.okhi.android_core.OkHiCore;
 import io.okhi.android_core.interfaces.OkHiSignInRequestHandler;
 import io.okhi.android_core.models.OkHiAccessScope;
+import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiException;
-import io.okhi.okhi_auth.OkHiAuth;
 
 public class CoreTest extends OkHiCore {
 
