@@ -11,9 +11,9 @@ import java.util.Objects;
 
 import io.okhi.android_core.interfaces.OkHiSignInRequestHandler;
 import io.okhi.android_core.models.Constant;
+import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiException;
-import io.okhi.okhi_auth.OkHiAuth;
-import io.okhi.okhi_auth.OkHiMode;
+import io.okhi.android_core.models.OkHiMode;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
