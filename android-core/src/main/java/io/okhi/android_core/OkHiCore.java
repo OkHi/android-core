@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
-import io.okhi.android_core.interfaces.OkHiSignInRequestHandler;
 import io.okhi.android_core.models.Constant;
 import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiException;
