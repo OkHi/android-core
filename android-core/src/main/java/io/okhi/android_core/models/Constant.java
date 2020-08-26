@@ -10,6 +10,9 @@ public class Constant {
     public static final int OPEN_LOCATION_SERVICES_SETTINGS_REQUEST_CODE = 3;
     public static final int ENABLE_GOOGLE_PLAY_SERVICES_REQUEST_CODE = 4;
 
+    // timers and delays
+    public static final long SERVICE_WAIT_DELAY = 2000;
+
     // dialogs
     public static final String PERMISSION_DIALOG_POSITIVE_BUTTON_TEXT = "GRANT";
     public static final String PERMISSION_DIALOG_NEGATIVE_BUTTON_TEXT = "CANCEL";
@@ -25,4 +28,7 @@ public class Constant {
     public static TimeUnit TIME_OUT_UNIT = TimeUnit.SECONDS;
     public static final int INVALID_PHONE_RESPONSE_CODE = 400;
     public static final int UNAUTHORIZED_RESPONSE_CODE = 401;
+
+    // location updates
+    public static final long LOCATION_REQUEST_EXPIRATION_DURATION = 10000;
 }
