@@ -3,6 +3,17 @@ package io.okhi.android_core.models;
 import java.util.concurrent.TimeUnit;
 
 public class Constant {
+
+    // request codes
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    public static final int ENABLE_LOCATION_SERVICES_REQUEST_CODE = 2;
+    public static final int OPEN_LOCATION_SERVICES_SETTINGS_REQUEST_CODE = 3;
+    public static final int ENABLE_GOOGLE_PLAY_SERVICES_REQUEST_CODE = 4;
+
+    // dialogs
+    public static final String PERMISSION_DIALOG_POSITIVE_BUTTON_TEXT = "GRANT";
+    public static final String PERMISSION_DIALOG_NEGATIVE_BUTTON_TEXT = "CANCEL";
+
     public static String OKHI_DEV_MODE = "dev";
     private static String API_VERSION = "v5";
     public static String DEV_BASE_URL = "https://dev-api.okhi.io/" + API_VERSION;
