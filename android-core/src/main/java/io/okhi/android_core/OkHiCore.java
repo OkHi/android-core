@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
-import io.okhi.android_core.interfaces.OkHiSignInRequestHandler;
+import io.okhi.android_core.interfaces.OkHiRequestHandler;
 import io.okhi.android_core.models.Constant;
 import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiException;
@@ -38,7 +38,7 @@ public class OkHiCore {
         }
     }
 
-    protected void anonymousSignWithPhoneNumber(@NonNull String phone, @NonNull String[] scopes, @NonNull final OkHiSignInRequestHandler handler) {
+    protected void anonymousSignWithPhoneNumber(@NonNull String phone, @NonNull String[] scopes, @NonNull final OkHiRequestHandler<String> handler) {
         try {
             JSONObject payload = new JSONObject();
             payload.put("phone", phone);
@@ -49,7 +49,7 @@ public class OkHiCore {
         }
     }
 
-    protected void anonymousSignInWithUserId(@NonNull String userId, @NonNull String[] scopes, @NonNull final OkHiSignInRequestHandler handler) {
+    protected void anonymousSignInWithUserId(@NonNull String userId, @NonNull String[] scopes, @NonNull final OkHiRequestHandler<String> handler) {
         try {
             JSONObject payload = new JSONObject();
             payload.put("user_id", userId);
@@ -60,7 +60,7 @@ public class OkHiCore {
         }
     }
 
-    private void anonymousSign(JSONObject payload, final OkHiSignInRequestHandler handler) {
+    private void anonymousSign(JSONObject payload, final OkHiRequestHandler<String> handler) {
         RequestBody body = RequestBody.create(payload.toString(), MediaType.parse("application/json"));
         Request request = new Request.Builder()
                 .url(BASE_URL + Constant.ANONYMOUS_SIGN_IN_ENDPOINT)
@@ -78,7 +78,7 @@ public class OkHiCore {
                     if (response.isSuccessful()) {
                         JSONObject res = new JSONObject(Objects.requireNonNull(response.body()).string());
                         if (res.has("authorization_token")) {
-                            handler.onSuccess(res.getString("authorization_token"));
+                            handler.onResult(res.getString("authorization_token"));
                         } else {
                             throw new Exception();
                         }

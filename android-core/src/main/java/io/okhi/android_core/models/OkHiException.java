@@ -13,6 +13,8 @@ public class OkHiException extends Exception {
     public static final String INVALID_PHONE_MESSAGE = "Invalid phone number provided. Please make sure its in MSISDN standard format";
     public static final String UNAUTHORIZED_CODE = "unauthorized";
     public static final String UNAUTHORIZED_MESSAGE = "Invalid credentials provided";
+    public static final String PERMISSION_DENIED_CODE = "permission_denied";
+    public static final String SERVICE_UNAVAILABLE_CODE = "service_unavailable";
 
     private final String code;
     private final String message;

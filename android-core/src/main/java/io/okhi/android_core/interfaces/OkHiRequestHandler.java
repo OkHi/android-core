@@ -2,7 +2,8 @@ package io.okhi.android_core.interfaces;
 
 import io.okhi.android_core.models.OkHiException;
 
-public interface OkHiSignInRequestHandler {
-    void onSuccess(String authorizationToken);
+public interface OkHiRequestHandler<T> {
+    void onResult(T result);
+
     void onError(OkHiException exception);
 }
