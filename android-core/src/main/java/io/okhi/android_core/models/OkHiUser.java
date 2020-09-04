@@ -24,17 +24,17 @@ public class OkHiUser {
             this.phone = phone;
         }
 
-        public Builder withFirstName(@NonNull String firstName) {
+        public Builder withFirstName(String firstName) {
             this.firstName = firstName;
             return this;
         }
 
-        public Builder withLastName(@NonNull String lastName) {
+        public Builder withLastName(String lastName) {
             this.lastName = lastName;
             return this;
         }
 
-        public Builder withOkHiUserId(@NonNull String userId) {
+        public Builder withOkHiUserId(String userId) {
             this.id = userId;
             return this;
         }
