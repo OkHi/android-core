@@ -20,6 +20,8 @@ public class OkHiLocation implements Serializable {
     private String streetViewPanoId;
     private String streetViewPanoUrl;
     private String userId;
+    private String photo;
+    private String propertyNumber;
 
     public OkHiLocation(@NonNull String id, double lat, double lon) {
         this.id = id;
@@ -43,6 +45,8 @@ public class OkHiLocation implements Serializable {
         this.streetViewPanoId = builder.streetViewPanoId;
         this.streetViewPanoUrl = builder.streetViewPanoUrl;
         this.userId = builder.userId;
+        this.photo = builder.photo;
+        this.propertyNumber = builder.propertyNumber;
     }
 
     public static class Builder {
@@ -61,6 +65,8 @@ public class OkHiLocation implements Serializable {
         private String streetViewPanoId;
         private String streetViewPanoUrl;
         private String userId;
+        private String photo;
+        private String propertyNumber;
 
         public Builder(@NonNull String id, double lat, double lon) {
             this.id = id;
@@ -125,6 +131,16 @@ public class OkHiLocation implements Serializable {
 
         public Builder setUserId(@NonNull String userId) {
             this.userId = userId;
+            return this;
+        }
+
+        public Builder setPhoto(@NonNull String photo) {
+            this.photo = photo;
+            return this;
+        }
+
+        public Builder setPropertyNumber(@NonNull String propertyNumber) {
+            this.propertyNumber = propertyNumber;
             return this;
         }
 
