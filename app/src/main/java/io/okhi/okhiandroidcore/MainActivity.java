@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // This is a a test
+        
         OkHiAppContext context = new OkHiAppContext.Builder(Secret.OkHi_MODE)
                 .setAppMeta("OkHi Core Test", "v1.0.0", 1)
                 .setDeveloper(OkHiDeveloperType.OKHI)
