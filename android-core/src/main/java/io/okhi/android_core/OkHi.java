@@ -26,6 +26,10 @@ public class OkHi {
         return OkHiPermissionService.isLocationPermissionGranted(context);
     }
 
+    public static boolean isBackgroundLocationPermissionGranted(@NonNull Context context) {
+        return OkHiPermissionService.isBackgroundLocationPermissionGranted(context);
+    }
+
     public static boolean isLocationServicesEnabled(@NonNull Context context) {
         return OkHiLocationService.isLocationServicesEnabled(context);
     }
@@ -40,6 +44,10 @@ public class OkHi {
 
     public void requestLocationPermission(@NonNull String rationaleTitle, @NonNull String rationaleMessage, final OkHiRequestHandler<Boolean> handler) {
         permissionService.requestLocationPermission(rationaleTitle, rationaleMessage, handler);
+    }
+
+    public void requestBackgroundLocationPermission(@NonNull String rationaleTitle, @NonNull String rationaleMessage, final OkHiRequestHandler<Boolean> handler) {
+        permissionService.requestBackgroundLocationPermission(rationaleTitle, rationaleMessage, handler);
     }
 
     public void requestEnableGooglePlayServices(@NonNull final OkHiRequestHandler<Boolean> handler) {
