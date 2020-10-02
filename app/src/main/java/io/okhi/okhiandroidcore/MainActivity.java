@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (!OkHi.isLocationPermissionGranted(getApplicationContext())) {
             okHi.requestLocationPermission("Hey we need location permission", "Pretty please..", new Handler());
+        } else if (!OkHi.isBackgroundLocationPermissionGranted(getApplicationContext())) {
+            okHi.requestBackgroundLocationPermission("Hey we need location permission", "Pretty please..", new Handler());
         } else if (!OkHi.isGooglePlayServicesAvailable(getApplicationContext())) {
             okHi.requestEnableGooglePlayServices(new Handler());
         } else if (!OkHi.isLocationServicesEnabled(getApplicationContext())) {
