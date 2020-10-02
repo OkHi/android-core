@@ -9,6 +9,7 @@ public class Constant {
     public static final int ENABLE_LOCATION_SERVICES_REQUEST_CODE = 2;
     public static final int OPEN_LOCATION_SERVICES_SETTINGS_REQUEST_CODE = 3;
     public static final int ENABLE_GOOGLE_PLAY_SERVICES_REQUEST_CODE = 4;
+    public static final int BACKGROUND_LOCATION_PERMISSION_REQUEST_CODE = 5;
 
     // timers and delays
     public static final long SERVICE_WAIT_DELAY = 2000;
