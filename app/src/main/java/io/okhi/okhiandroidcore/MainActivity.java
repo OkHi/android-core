@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         CoreTest test = new CoreTest(auth);
         test.testAnonymousSignWithPhoneNumber(Secret.TEST_PHONE);
         test.testAnonymousSignWithUserId(Secret.TEST_USER_ID);
+        test.getCurrentLocation(this);
         okHi = new OkHi(this);
     }
 
