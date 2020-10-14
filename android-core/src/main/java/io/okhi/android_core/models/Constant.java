@@ -13,6 +13,7 @@ public class Constant {
 
     // timers and delays
     public static final long SERVICE_WAIT_DELAY = 2000;
+    public static final long LOCATION_WAIT_DELAY = 20000;
 
     // dialogs
     public static final String PERMISSION_DIALOG_POSITIVE_BUTTON_TEXT = "GRANT";
@@ -31,5 +32,7 @@ public class Constant {
     public static final int UNAUTHORIZED_RESPONSE_CODE = 401;
 
     // location updates
-    public static final long LOCATION_REQUEST_EXPIRATION_DURATION = 10000;
+    public static final long LOCATION_REQUEST_EXPIRATION_DURATION = 20000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 }

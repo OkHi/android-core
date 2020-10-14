@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +30,14 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
+
+import static io.okhi.android_core.models.Constant.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS;
+import static io.okhi.android_core.models.Constant.LOCATION_WAIT_DELAY;
+import static io.okhi.android_core.models.Constant.UPDATE_INTERVAL_IN_MILLISECONDS;
 
 public class OkHiLocationService {
     private Context context;
@@ -38,6 +46,8 @@ public class OkHiLocationService {
     private SettingsClient settingsClient;
     private LocationSettingsRequest locationSettingsRequest = buildLocationSettingsRequest();
     private OkHiException exception = new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Location services are currently unavailable");
+    private static LocationResult locationResult;
+    private static LocationCallback locationCallback;
 
     public OkHiLocationService(Activity activity) {
         this.context = activity.getApplicationContext();
@@ -115,21 +125,36 @@ public class OkHiLocationService {
         }
     }
 
-    public static void getCurrentLocation(Context context, final OkHiRequestHandler<Location> handler) throws OkHiException {
+    public static void getCurrentLocation(final Context context, final OkHiRequestHandler<Location> handler) throws OkHiException {
         boolean isLocationPermissionGranted = OkHiPermissionService.isLocationPermissionGranted(context);
         OkHiException permissionException = new OkHiException(OkHiException.PERMISSION_DENIED_CODE, "Location permission is not granted");
         if (!isLocationPermissionGranted) {
             throw permissionException;
         } else {
             final FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(context);
-            LocationCallback locationCallback = new LocationCallback() {
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-                    if (locationResult.getLastLocation() == null) {
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask(){
+                public void run() {
+                    if(locationResult == null){
                         handler.onError(new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Last location isn't yet available"));
-                    } else {
+                    }
+                    else{
                         handler.onResult(locationResult.getLastLocation());
-                        client.removeLocationUpdates(this);
+                    }
+                    client.removeLocationUpdates(locationCallback);
+                    timer.cancel();
+                }
+            }, LOCATION_WAIT_DELAY);
+            locationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(final LocationResult locationResult1) {
+                    super.onLocationResult(locationResult1);
+                    if (locationResult1.getLastLocation() == null) {
+                        timer.cancel();
+                        handler.onError(new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Last location isn't yet available"));
+                        client.removeLocationUpdates(locationCallback);
+                    } else {
+                        locationResult = locationResult1;
                     }
                 }
             };
@@ -144,6 +169,8 @@ public class OkHiLocationService {
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setExpirationDuration(Constant.LOCATION_REQUEST_EXPIRATION_DURATION);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         return locationRequest;
     }
 }
