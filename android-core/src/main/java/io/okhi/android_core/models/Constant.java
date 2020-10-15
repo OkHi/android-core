@@ -32,6 +32,7 @@ public class Constant {
     public static final int UNAUTHORIZED_RESPONSE_CODE = 401;
 
     // location updates
+    public static final long LOCATION_GPS_ACCURACY = 100;
     public static final long LOCATION_REQUEST_EXPIRATION_DURATION = 20000;
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;

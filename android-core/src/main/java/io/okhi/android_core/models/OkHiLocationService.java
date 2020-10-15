@@ -36,6 +36,7 @@ import java.util.TimerTask;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
 
 import static io.okhi.android_core.models.Constant.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS;
+import static io.okhi.android_core.models.Constant.LOCATION_GPS_ACCURACY;
 import static io.okhi.android_core.models.Constant.LOCATION_WAIT_DELAY;
 import static io.okhi.android_core.models.Constant.UPDATE_INTERVAL_IN_MILLISECONDS;
 
@@ -46,8 +47,8 @@ public class OkHiLocationService {
     private SettingsClient settingsClient;
     private LocationSettingsRequest locationSettingsRequest = buildLocationSettingsRequest();
     private OkHiException exception = new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Location services are currently unavailable");
-    private static LocationResult locationResult;
     private static LocationCallback locationCallback;
+    private static LocationResult locationResult;
 
     public OkHiLocationService(Activity activity) {
         this.context = activity.getApplicationContext();
@@ -150,11 +151,16 @@ public class OkHiLocationService {
                 public void onLocationResult(final LocationResult locationResult1) {
                     super.onLocationResult(locationResult1);
                     if (locationResult1.getLastLocation() == null) {
-                        timer.cancel();
                         handler.onError(new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Last location isn't yet available"));
                         client.removeLocationUpdates(locationCallback);
+                        timer.cancel();
                     } else {
                         locationResult = locationResult1;
+                        if(locationResult1.getLastLocation().getAccuracy() <= LOCATION_GPS_ACCURACY){
+                            handler.onResult(locationResult.getLastLocation());
+                            client.removeLocationUpdates(locationCallback);
+                            timer.cancel();
+                        }
                     }
                 }
             };
