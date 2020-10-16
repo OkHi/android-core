@@ -148,15 +148,11 @@ public class OkHiLocationService {
             }, LOCATION_WAIT_DELAY);
             locationCallback = new LocationCallback() {
                 @Override
-                public void onLocationResult(final LocationResult locationResult1) {
-                    super.onLocationResult(locationResult1);
-                    if (locationResult1.getLastLocation() == null) {
-                        handler.onError(new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Last location isn't yet available"));
-                        client.removeLocationUpdates(locationCallback);
-                        timer.cancel();
-                    } else {
-                        locationResult = locationResult1;
-                        if(locationResult1.getLastLocation().getAccuracy() <= LOCATION_GPS_ACCURACY){
+                public void onLocationResult(final LocationResult locationUpdate) {
+                    super.onLocationResult(locationUpdate);
+                    if (locationUpdate.getLastLocation() != null) {
+                        locationResult = locationUpdate;
+                        if (locationUpdate.getLastLocation().getAccuracy() <= LOCATION_GPS_ACCURACY) {
                             handler.onResult(locationResult.getLastLocation());
                             client.removeLocationUpdates(locationCallback);
                             timer.cancel();
