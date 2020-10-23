@@ -2,7 +2,6 @@ package io.okhi.android_core;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -44,6 +43,7 @@ public class OkHiCore {
 
     protected void anonymousSignWithPhoneNumber(@NonNull String phone, @NonNull String[] scopes, @NonNull final OkHiRequestHandler<String> handler) {
         try {
+            @NonNull
             JSONObject payload = new JSONObject();
             payload.put("phone", phone);
             payload.put("scopes", new JSONArray(scopes));
@@ -73,11 +73,11 @@ public class OkHiCore {
                 .build();
         getHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(Call call, IOException e) {
                 handler.onError(new OkHiException(OkHiException.NETWORK_ERROR_CODE, OkHiException.NETWORK_ERROR_MESSAGE));
             }
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
+            public void onResponse(Call call, Response response) throws IOException {
                 try {
                     if (response.isSuccessful()) {
                         JSONObject res = new JSONObject(Objects.requireNonNull(response.body()).string());
