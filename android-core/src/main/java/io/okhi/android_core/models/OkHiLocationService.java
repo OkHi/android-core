@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,19 +58,28 @@ public class OkHiLocationService {
     }
 
     public static boolean isLocationServicesEnabled(Context context) {
-        int locationMode;
-        try {
-            locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-        } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
+        int locationMode = getLocationMode(context);
+        if (locationMode != Settings.Secure.LOCATION_MODE_OFF) {
+            if (locationMode == Settings.Secure.LOCATION_MODE_BATTERY_SAVING || locationMode == Settings.Secure.LOCATION_MODE_HIGH_ACCURACY) {
+                return true;
+            }
             return false;
         }
-        return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+        return false;
     }
 
     public static void openLocationServicesSettings(Activity activity) {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         activity.startActivityForResult(intent, Constant.OPEN_LOCATION_SERVICES_SETTINGS_REQUEST_CODE, new Bundle());
+    }
+
+    private static int getLocationMode (Context context) {
+        try {
+            return Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Settings.Secure.LOCATION_MODE_OFF;
+        }
     }
 
     private LocationSettingsRequest buildLocationSettingsRequest() {
@@ -101,13 +111,23 @@ public class OkHiLocationService {
             handler.onResult(true);
             return;
         }
-        this.requestHandler = handler;
-        settingsClient.checkLocationSettings(locationSettingsRequest).addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                onLocationSettingsResponse(task);
+        int locationMode = getLocationMode(context);
+        if (locationMode == Settings.Secure.LOCATION_MODE_OFF) {
+            this.requestHandler = handler;
+            settingsClient.checkLocationSettings(locationSettingsRequest).addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+                @Override
+                public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                    onLocationSettingsResponse(task);
+                }
+            });
+        } else {
+            openLocationServicesSettings(activity);
+            try {
+                Toast.makeText(context, "Please enable \"High accuracy\" location settings", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
