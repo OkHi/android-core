@@ -79,7 +79,7 @@ public class OkHiPermissionService {
 
     public void requestLocationPermission(String rationaleTitle, String rationaleMessage, final OkHiRequestHandler<Boolean> handler) {
         if (isLocationPermissionGranted(activity)) {
-            requestHandler.onResult(true);
+            handler.onResult(true);
             return;
         }
         String[] permissions = new String[getLocationPermissions().size()];
@@ -89,7 +89,7 @@ public class OkHiPermissionService {
 
     public void requestBackgroundLocationPermission(String rationaleTitle, String rationaleMessage, OkHiRequestHandler<Boolean> handler) {
         if (isBackgroundLocationPermissionGranted(activity)) {
-            requestHandler.onResult(true);
+            handler.onResult(true);
             return;
         }
         String[] permissions = new String[getBackgroundLocationPermissions().size()];
