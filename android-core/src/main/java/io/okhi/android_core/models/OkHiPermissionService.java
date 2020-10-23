@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -58,6 +59,9 @@ public class OkHiPermissionService {
     }
 
     public static boolean isBackgroundLocationPermissionGranted(Context context) {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             int permission = ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
             return permission == PackageManager.PERMISSION_GRANTED;
@@ -66,6 +70,9 @@ public class OkHiPermissionService {
     }
 
     public static boolean isLocationPermissionGranted(Context context) {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
         int permission = ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
         return permission == PackageManager.PERMISSION_GRANTED;
     }
