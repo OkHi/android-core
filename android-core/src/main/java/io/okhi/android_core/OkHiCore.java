@@ -26,6 +26,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.TlsVersion;
 
+import static io.okhi.android_core.models.OkHiCoreUtil.getErrorResponse;
+
 public class OkHiCore {
     private String BASE_URL;
     private final OkHiAuth auth;
@@ -84,14 +86,10 @@ public class OkHiCore {
                         if (res.has("authorization_token")) {
                             handler.onResult(res.getString("authorization_token"));
                         } else {
-                            throw new Exception();
+                            handler.onError(new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, OkHiException.UNKNOWN_ERROR_MESSAGE));
                         }
-                    } else if (response.code() == Constant.INVALID_PHONE_RESPONSE_CODE) {
-                        handler.onError(new OkHiException(OkHiException.INVALID_PHONE_CODE, OkHiException.INVALID_PHONE_MESSAGE));
-                    } else if (response.code() == Constant.UNAUTHORIZED_RESPONSE_CODE) {
-                        handler.onError(new OkHiException(OkHiException.UNAUTHORIZED_CODE, OkHiException.UNAUTHORIZED_MESSAGE));
                     } else {
-                        throw new Exception();
+                        handler.onError(getErrorResponse(response));
                     }
                 } catch (Exception e) {
                     handler.onError(new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, OkHiException.UNKNOWN_ERROR_MESSAGE));
@@ -99,6 +97,8 @@ public class OkHiCore {
             }
         });
     }
+
+
 
     private OkHttpClient getHttpClient() {
         ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
