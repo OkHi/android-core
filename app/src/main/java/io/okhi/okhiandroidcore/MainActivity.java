@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         CoreTest test = new CoreTest(auth);
         test.testAnonymousSignWithPhoneNumber(Secret.TEST_PHONE);
         test.testAnonymousSignWithUserId(Secret.TEST_USER_ID);
+        test.getCurrentLocation(this);
         okHi = new OkHi(this);
     }
 
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean canStartAddressVerification() {
-
         if (!OkHi.isLocationPermissionGranted(getApplicationContext())) {
             okHi.requestLocationPermission("Hey we need location permission", "Pretty please..", new Handler());
         } else if (!OkHi.isBackgroundLocationPermissionGranted(getApplicationContext())) {

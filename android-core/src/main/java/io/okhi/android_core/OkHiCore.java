@@ -2,11 +2,11 @@ package io.okhi.android_core;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
@@ -16,12 +16,15 @@ import io.okhi.android_core.models.OkHiException;
 import io.okhi.android_core.models.OkHiMode;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.CipherSuite;
+import okhttp3.ConnectionSpec;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.TlsVersion;
 
 public class OkHiCore {
     private String BASE_URL;
@@ -40,6 +43,7 @@ public class OkHiCore {
 
     protected void anonymousSignWithPhoneNumber(@NonNull String phone, @NonNull String[] scopes, @NonNull final OkHiRequestHandler<String> handler) {
         try {
+            @NonNull
             JSONObject payload = new JSONObject();
             payload.put("phone", phone);
             payload.put("scopes", new JSONArray(scopes));
@@ -61,7 +65,7 @@ public class OkHiCore {
     }
 
     private void anonymousSign(JSONObject payload, final OkHiRequestHandler<String> handler) {
-        RequestBody body = RequestBody.create(payload.toString(), MediaType.parse("application/json"));
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), payload.toString());
         Request request = new Request.Builder()
                 .url(BASE_URL + Constant.ANONYMOUS_SIGN_IN_ENDPOINT)
                 .headers(getHeaders())
@@ -69,11 +73,11 @@ public class OkHiCore {
                 .build();
         getHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(Call call, IOException e) {
                 handler.onError(new OkHiException(OkHiException.NETWORK_ERROR_CODE, OkHiException.NETWORK_ERROR_MESSAGE));
             }
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
+            public void onResponse(Call call, Response response) throws IOException {
                 try {
                     if (response.isSuccessful()) {
                         JSONObject res = new JSONObject(Objects.requireNonNull(response.body()).string());
@@ -97,7 +101,25 @@ public class OkHiCore {
     }
 
     private OkHttpClient getHttpClient() {
+        ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
+                .supportsTlsExtensions(true)
+                .tlsVersions(TlsVersion.TLS_1_2, TlsVersion.TLS_1_1, TlsVersion.TLS_1_0)
+                .cipherSuites(
+                        CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+                        CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                        CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+                        CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+                        CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+                        CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+                        CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+                        CipherSuite.TLS_ECDHE_ECDSA_WITH_RC4_128_SHA,
+                        CipherSuite.TLS_ECDHE_RSA_WITH_RC4_128_SHA,
+                        CipherSuite.TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+                        CipherSuite.TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
+                        CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
+                .build();
         return new OkHttpClient.Builder()
+                .connectionSpecs(Collections.singletonList(spec))
                 .connectTimeout(Constant.TIME_OUT, Constant.TIME_OUT_UNIT)
                 .writeTimeout(Constant.TIME_OUT, Constant.TIME_OUT_UNIT)
                 .readTimeout(Constant.TIME_OUT, Constant.TIME_OUT_UNIT)

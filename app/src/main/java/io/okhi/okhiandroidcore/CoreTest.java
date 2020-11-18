@@ -1,5 +1,7 @@
 package io.okhi.okhiandroidcore;
 
+import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import io.okhi.android_core.interfaces.OkHiRequestHandler;
 import io.okhi.android_core.models.OkHiAccessScope;
 import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiException;
+import io.okhi.android_core.models.OkHiLocationService;
 
 public class CoreTest extends OkHiCore {
 
@@ -46,5 +49,25 @@ public class CoreTest extends OkHiCore {
                 exception.printStackTrace();
             }
         });
+    }
+
+    public void getCurrentLocation(Context context) {
+        // TODO: remove throw signature from core library
+        try {
+
+            OkHiLocationService.getCurrentLocation(context, new OkHiRequestHandler<Location>() {
+                @Override
+                public void onResult(Location result) {
+                    Log.i(TAG, result.getAccuracy()+" "+result.getLatitude()+" "+result.getLongitude());
+                }
+
+                @Override
+                public void onError(OkHiException exception) {
+                    Log.i(TAG, exception.getCode()+" "+exception.getMessage());
+                }
+            });
+        } catch (OkHiException e) {
+            e.printStackTrace();
+        }
     }
 }
