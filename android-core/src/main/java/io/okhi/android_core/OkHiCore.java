@@ -26,7 +26,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.TlsVersion;
 
-import static io.okhi.android_core.models.OkHiCoreUtil.getErrorResponse;
+import static io.okhi.android_core.models.OkHiCoreUtil.generateOkHiException;
 
 public class OkHiCore {
     private String BASE_URL;
@@ -89,7 +89,7 @@ public class OkHiCore {
                             handler.onError(new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, OkHiException.UNKNOWN_ERROR_MESSAGE));
                         }
                     } else {
-                        handler.onError(getErrorResponse(response));
+                        handler.onError(generateOkHiException(response));
                     }
                 } catch (Exception e) {
                     handler.onError(new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, OkHiException.UNKNOWN_ERROR_MESSAGE));

@@ -3,7 +3,7 @@ package io.okhi.android_core.models;
 import okhttp3.Response;
 
 public class OkHiCoreUtil {
-    public static OkHiException getErrorResponse(Response response){
+    public static OkHiException generateOkHiException(Response response){
         if (response.code() == Constant.INVALID_PHONE_RESPONSE_CODE) {
             return new OkHiException(OkHiException.INVALID_PHONE_CODE, OkHiException.INVALID_PHONE_MESSAGE);
         } else if (response.code() == Constant.UNAUTHORIZED_RESPONSE_CODE) {
