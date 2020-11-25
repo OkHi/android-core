@@ -52,22 +52,16 @@ public class CoreTest extends OkHiCore {
     }
 
     public void getCurrentLocation(Context context) {
-        // TODO: remove throw signature from core library
-        try {
+        OkHiLocationService.getCurrentLocation(context, new OkHiRequestHandler<Location>() {
+            @Override
+            public void onResult(Location result) {
+                Log.i(TAG, result.getAccuracy()+" "+result.getLatitude()+" "+result.getLongitude());
+            }
 
-            OkHiLocationService.getCurrentLocation(context, new OkHiRequestHandler<Location>() {
-                @Override
-                public void onResult(Location result) {
-                    Log.i(TAG, result.getAccuracy()+" "+result.getLatitude()+" "+result.getLongitude());
-                }
-
-                @Override
-                public void onError(OkHiException exception) {
-                    Log.i(TAG, exception.getCode()+" "+exception.getMessage());
-                }
-            });
-        } catch (OkHiException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onError(OkHiException exception) {
+                Log.i(TAG, exception.getCode()+" "+exception.getMessage());
+            }
+        });
     }
 }
