@@ -146,7 +146,7 @@ public class OkHiLocationService {
         }
     }
 
-    public static void getCurrentLocation(final Context context, final OkHiRequestHandler<Location> handler) throws OkHiException {
+    public static void getCurrentLocation(final Context context, final OkHiRequestHandler<Location> handler)  {
         boolean isLocationPermissionGranted = OkHiPermissionService.isLocationPermissionGranted(context);
         boolean isLocationServicesEnabled = OkHiLocationService.isLocationServicesEnabled(context);
         OkHiException permissionException = new OkHiException(OkHiException.PERMISSION_DENIED_CODE, "Location permission is not granted");
@@ -154,10 +154,10 @@ public class OkHiLocationService {
         final FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(context);
         final Timer timer = new Timer();
         if (!isLocationPermissionGranted) {
-            throw permissionException;
+            handler.onError(permissionException);
         }
         if (!isLocationServicesEnabled) {
-            throw serviceException;
+            handler.onError(serviceException);
         }
         timer.schedule(new TimerTask() {
             public void run() {
@@ -185,7 +185,7 @@ public class OkHiLocationService {
             }
         };
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            throw permissionException;
+            handler.onError(permissionException);
         }
         client.requestLocationUpdates(getLocationRequest(), locationCallback, Looper.getMainLooper());
     }
