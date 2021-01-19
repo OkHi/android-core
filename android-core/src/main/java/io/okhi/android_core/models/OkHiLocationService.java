@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -101,6 +100,7 @@ public class OkHiLocationService {
                 } catch (Exception error) {
                     requestHandler.onResult(false);
                     e.printStackTrace();
+                    OkHiCoreUtil.captureException(error);
                 }
             }
         }
@@ -125,6 +125,7 @@ public class OkHiLocationService {
             try {
                 Toast.makeText(context, "Please enable \"High accuracy\" location settings", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
+                OkHiCoreUtil.captureException(e);
                 e.printStackTrace();
             }
         }
@@ -162,7 +163,9 @@ public class OkHiLocationService {
         timer.schedule(new TimerTask() {
             public void run() {
                 if (locationResult == null) {
-                    handler.onError(new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Last location isn't yet available"));
+                    OkHiException locationException = new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "Last location isn't yet available");
+                    OkHiCoreUtil.captureException(locationException);
+                    handler.onError(locationException);
                 } else {
                     handler.onResult(locationResult.getLastLocation());
                 }
@@ -186,6 +189,7 @@ public class OkHiLocationService {
         };
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             handler.onError(permissionException);
+            OkHiCoreUtil.captureException(permissionException);
         }
         client.requestLocationUpdates(getLocationRequest(), locationCallback, Looper.getMainLooper());
     }
