@@ -43,6 +43,7 @@ public class OkHiPlayService {
                 dialog.show();
             } else {
                 // device not supported
+                OkHiCoreUtil.captureException(new Exception("Google play services not supported on device"));
                 requestHandler.onError(exception);
             }
         } else {
