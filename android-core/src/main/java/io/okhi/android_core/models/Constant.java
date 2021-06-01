@@ -36,4 +36,10 @@ public class Constant {
     public static final long LOCATION_REQUEST_EXPIRATION_DURATION = 20000;
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
+    public static final String AUTH_BRANCH_ID_META_KEY = "io.okhi.core.branch_id";
+    public static final String AUTH_CLIENT_KEY_META_KEY = "io.okhi.core.client_key";
+    public static final String AUTH_ENV_META_KEY = "io.okhi.core.environment";
+    public static final String AUTH_DEVELOPER_META_KEY = "io.okhi.core.developer";
+    public static final String AUTH_PLATFORM_META_KEY = "io.okhi.core.platform";
 }
