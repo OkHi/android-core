@@ -1,5 +1,9 @@
 package io.okhi.android_core.models;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
@@ -17,11 +21,25 @@ public class OkHiAuth {
         private String branchId;
         private String clientKey;
         private String accessToken;
-        private OkHiAppContext context = new OkHiAppContext.Builder(OkHiMode.SANDBOX).build();
+        private OkHiAppContext context;
 
-        public Builder(@NonNull String branchId, @NonNull String clientKey) {
-            this.branchId = branchId;
-            this.clientKey = clientKey;
+        public Builder(@NonNull Context context) throws OkHiException {
+            try {
+                this.context = new OkHiAppContext.Builder(context).build();
+                ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                Bundle bundle = app.metaData;
+                String branchId = bundle.getString(Constant.AUTH_BRANCH_ID_META_KEY);
+                String clientKey = bundle.getString(Constant.AUTH_CLIENT_KEY_META_KEY);
+                if (branchId == null || clientKey == null) {
+                    throw new OkHiException(OkHiException.UNAUTHORIZED_CODE, "Invalid branchId and/or clientKey provided");
+                }
+                this.branchId = branchId;
+                this.clientKey = clientKey;
+            } catch (OkHiException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, e.getMessage());
+            }
         }
 
         public Builder withContext(OkHiAppContext context) {

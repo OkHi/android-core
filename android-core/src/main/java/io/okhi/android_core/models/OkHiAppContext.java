@@ -1,8 +1,15 @@
 package io.okhi.android_core.models;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
-import io.okhi.android_core.models.OkHiAppMeta;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class OkHiAppContext {
     private String mode;
@@ -19,11 +26,35 @@ public class OkHiAppContext {
 
     public static class Builder {
         private String mode;
+        private OkHiAppMeta appMeta;
         private String platform = OkHiPlatformType.ANDROID;
         private String developer = OkHiDeveloperType.EXTERNAL;
-        private OkHiAppMeta appMeta = new OkHiAppMeta();
-        public Builder(@NonNull String mode) {
-            this.mode = mode;
+
+        public Builder(@NonNull Context context) throws OkHiException {
+            try {
+                ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                Bundle bundle = app.metaData;
+                String env = bundle.getString(Constant.AUTH_ENV_META_KEY);
+                String developer = bundle.getString(Constant.AUTH_DEVELOPER_META_KEY);
+                String platform = bundle.getString(Constant.AUTH_PLATFORM_META_KEY);
+                String[] modes = new String[]{"dev", "sandbox", "prod"};
+                List<String> modesList = new ArrayList<>(Arrays.asList(modes));
+                if (env == null || !modesList.contains(env)) {
+                    throw new OkHiException(OkHiException.UNAUTHORIZED_CODE, "Invalid env provided in application meta");
+                }
+                if (developer.equals("okhi") ) {
+                    this.developer = developer;
+                }
+                if (platform.equals("android") || platform.equals("react-native")) {
+                    this.platform = platform;
+                }
+                this.appMeta = OkHiAppMeta.getAppMeta(context);
+                this.mode = env;
+            } catch (OkHiException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, e.getMessage());
+            }
         }
         public Builder setPlatform(@NonNull String platform){
             this.platform = platform;
@@ -31,12 +62,6 @@ public class OkHiAppContext {
         }
         public Builder setDeveloper(@NonNull String developer){
             this.developer = developer;
-            return this;
-        }
-        public Builder setAppMeta(@NonNull String name, @NonNull String version, @NonNull int build){
-            appMeta.setName(name);
-            appMeta.setVersion(version);
-            appMeta.setBuild(build);
             return this;
         }
         public OkHiAppContext build() {
