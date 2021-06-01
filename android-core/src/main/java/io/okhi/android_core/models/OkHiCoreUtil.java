@@ -75,4 +75,13 @@ public class OkHiCoreUtil {
             }
         });
     }
+
+    public static void initErrorTracking(Context context) {
+        SentryAndroid.init(context, new Sentry.OptionsConfiguration<SentryAndroidOptions>() {
+            @Override
+            public void configure(SentryAndroidOptions options) {
+                options.setDsn("https://examplePublicKey@o0.ingest.sentry.io/0");
+            }
+        });
+    }
 }
