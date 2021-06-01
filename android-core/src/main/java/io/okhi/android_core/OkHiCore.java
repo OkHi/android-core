@@ -1,5 +1,7 @@
 package io.okhi.android_core;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import org.json.JSONArray;
@@ -30,10 +32,10 @@ import static io.okhi.android_core.models.OkHiCoreUtil.generateOkHiException;
 
 public class OkHiCore {
     private String BASE_URL;
-    private final OkHiAuth auth;
+    private OkHiAuth auth;
 
-    protected OkHiCore(@NonNull OkHiAuth auth) {
-        this.auth = auth;
+    protected OkHiCore(@NonNull Context context) throws OkHiException {
+        this.auth = new OkHiAuth.Builder(context).build();
         if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
             BASE_URL = Constant.DEV_BASE_URL;
         } else if (auth.getContext().getMode().equals(OkHiMode.PROD)) {
