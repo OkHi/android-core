@@ -17,8 +17,8 @@ public class CoreTest extends OkHiCore {
 
     private String TAG = "CoreTest";
 
-    protected CoreTest(@NonNull OkHiAuth auth) {
-        super(auth);
+    protected CoreTest(@NonNull Context context) throws OkHiException {
+        super(context);
     }
 
     public void testAnonymousSignWithPhoneNumber(String phone) {
