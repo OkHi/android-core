@@ -32,7 +32,7 @@ import static io.okhi.android_core.models.OkHiCoreUtil.generateOkHiException;
 
 public class OkHiCore {
     private String BASE_URL;
-    private OkHiAuth auth;
+    protected OkHiAuth auth;
 
     protected OkHiCore(@NonNull Context context) throws OkHiException {
         this.auth = new OkHiAuth.Builder(context).build();
