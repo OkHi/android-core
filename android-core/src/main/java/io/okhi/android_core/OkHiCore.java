@@ -34,7 +34,7 @@ public class OkHiCore {
     private String BASE_URL;
     protected OkHiAuth auth;
 
-    protected OkHiCore(@NonNull Context context) throws OkHiException {
+    public OkHiCore(@NonNull Context context) throws OkHiException {
         this.auth = new OkHiAuth.Builder(context).build();
         if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
             BASE_URL = Constant.DEV_BASE_URL;
