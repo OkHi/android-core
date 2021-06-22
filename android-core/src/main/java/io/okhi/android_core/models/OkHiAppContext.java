@@ -34,9 +34,9 @@ public class OkHiAppContext {
             try {
                 ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                 Bundle bundle = app.metaData;
-                String env = bundle.getString(Constant.AUTH_ENV_META_KEY);
-                String developer = bundle.getString(Constant.AUTH_DEVELOPER_META_KEY);
-                String platform = bundle.getString(Constant.AUTH_PLATFORM_META_KEY);
+                String env = bundle.getString(Constant.AUTH_ENV_META_KEY, "sandbox");
+                String developer = bundle.getString(Constant.AUTH_DEVELOPER_META_KEY, "external");
+                String platform = bundle.getString(Constant.AUTH_PLATFORM_META_KEY, "android");
                 String[] modes = new String[]{"dev", "sandbox", "prod"};
                 List<String> modesList = new ArrayList<>(Arrays.asList(modes));
                 if (env == null || !modesList.contains(env)) {
