@@ -22,6 +22,10 @@ public class OkHiLocation implements Serializable {
     private String userId;
     private String photo;
     private String propertyNumber;
+    private String country;
+    private String state;
+    private String city;
+    private String displayTitle;
 
     public OkHiLocation(String id, double lat, double lon) {
         this.id = id;
@@ -47,6 +51,10 @@ public class OkHiLocation implements Serializable {
         this.userId = builder.userId;
         this.photo = builder.photo;
         this.propertyNumber = builder.propertyNumber;
+        this.country = builder.country;
+        this.state = builder.state;
+        this.city = builder.city;
+        this.displayTitle = builder.displayTitle;
     }
 
     public static class Builder {
@@ -67,6 +75,10 @@ public class OkHiLocation implements Serializable {
         private String userId;
         private String photo;
         private String propertyNumber;
+        private String country;
+        private String state;
+        private String city;
+        private String displayTitle;
 
         public Builder(String id, double lat, double lon) {
             this.id = id;
@@ -144,6 +156,26 @@ public class OkHiLocation implements Serializable {
             return this;
         }
 
+        public Builder setCountry(String country) {
+            this.country = country;
+            return this;
+        }
+
+        public Builder setState(String state) {
+            this.state = state;
+            return this;
+        }
+
+        public Builder setCity(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public Builder setDisplayTitle(String displayTitle) {
+            this.displayTitle = displayTitle;
+            return this;
+        }
+
         public OkHiLocation build() {
             return new OkHiLocation(this);
         }
@@ -215,5 +247,21 @@ public class OkHiLocation implements Serializable {
 
     public String getPropertyNumber() {
         return propertyNumber;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getDisplayTitle() {
+        return displayTitle;
     }
 }
