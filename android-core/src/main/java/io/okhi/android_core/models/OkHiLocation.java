@@ -25,6 +25,7 @@ public class OkHiLocation implements Serializable {
     private String country;
     private String state;
     private String city;
+    private String displayTitle;
 
     public OkHiLocation(String id, double lat, double lon) {
         this.id = id;
@@ -53,6 +54,7 @@ public class OkHiLocation implements Serializable {
         this.country = builder.country;
         this.state = builder.state;
         this.city = builder.city;
+        this.displayTitle = builder.displayTitle;
     }
 
     public static class Builder {
@@ -76,6 +78,7 @@ public class OkHiLocation implements Serializable {
         private String country;
         private String state;
         private String city;
+        private String displayTitle;
 
         public Builder(String id, double lat, double lon) {
             this.id = id;
@@ -168,6 +171,11 @@ public class OkHiLocation implements Serializable {
             return this;
         }
 
+        public Builder setDisplayTitle(String displayTitle) {
+            this.displayTitle = displayTitle;
+            return this;
+        }
+
         public OkHiLocation build() {
             return new OkHiLocation(this);
         }
@@ -251,5 +259,9 @@ public class OkHiLocation implements Serializable {
 
     public String getState() {
         return state;
+    }
+
+    public String getDisplayTitle() {
+        return displayTitle;
     }
 }
