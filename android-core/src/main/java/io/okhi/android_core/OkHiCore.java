@@ -44,7 +44,7 @@ public class OkHiCore {
             BASE_URL = Constant.SANDBOX_BASE_URL;
         }
     }
-    
+
     public OkHiCore(@NonNull Context context) throws OkHiException {
         this.auth = new OkHiAuth.Builder(context).build();
         if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
