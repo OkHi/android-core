@@ -17,6 +17,20 @@ public class OkHiAppContext {
     private String developer;
     private OkHiAppMeta appMeta;
 
+    public OkHiAppContext(@NonNull Context context, @NonNull String mode, @NonNull String platform, @NonNull String developer) throws OkHiException {
+        this.mode = mode;
+        this.platform = platform;
+        this.developer = developer;
+        this.appMeta = OkHiAppMeta.getAppMeta(context);
+    }
+
+    public OkHiAppContext(@NonNull Context context, @NonNull String mode, @NonNull String platform, @NonNull String developer, @NonNull OkHiAppMeta appMeta) {
+        this.mode = mode;
+        this.platform = platform;
+        this.developer = developer;
+        this.appMeta = appMeta;
+    }
+
     private OkHiAppContext(Builder builder) {
         this.mode = builder.mode;
         this.platform = builder.platform;
