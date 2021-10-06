@@ -34,6 +34,17 @@ public class OkHiCore {
     private String BASE_URL;
     protected OkHiAuth auth;
 
+    public OkHiCore(@NonNull OkHiAuth auth) {
+        this.auth = auth;
+        if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
+            BASE_URL = Constant.DEV_BASE_URL;
+        } else if (auth.getContext().getMode().equals(OkHiMode.PROD)) {
+            BASE_URL = Constant.PROD_BASE_URL;
+        } else {
+            BASE_URL = Constant.SANDBOX_BASE_URL;
+        }
+    }
+    
     public OkHiCore(@NonNull Context context) throws OkHiException {
         this.auth = new OkHiAuth.Builder(context).build();
         if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
