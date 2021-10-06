@@ -17,6 +17,18 @@ public class OkHiAuth {
         this.context = builder.context;
     }
 
+    public OkHiAuth(@NonNull Context context, @NonNull String branchId, @NonNull String clientKey) throws OkHiException {
+        this.context = new OkHiAppContext(context, "sandbox", "android", "external");
+        String concat = branchId + ":" + clientKey;
+        this.accessToken = Base64.encodeToString(concat.getBytes(), Base64.NO_WRAP);
+    }
+
+    public OkHiAuth(@NonNull Context context, @NonNull String branchId, @NonNull String clientKey, @NonNull OkHiAppContext appContext) throws OkHiException {
+        this.context = appContext;
+        String concat = branchId + ":" + clientKey;
+        this.accessToken = Base64.encodeToString(concat.getBytes(), Base64.NO_WRAP);
+    }
+
     public static class Builder {
         private String branchId;
         private String clientKey;
