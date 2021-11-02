@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -86,6 +87,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void handleButtonTap(View v) {
-        startAddressVerification();
+//        startAddressVerification();
+        okHi.requestLocationPermission(new OkHiRequestHandler<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                Log.v("Permission","When In Use " + result);
+                okHi.requestBackgroundLocationPermission(new OkHiRequestHandler<Boolean>() {
+                    @Override
+                    public void onResult(Boolean result) {
+                        Log.v("Permission","Always " + result);
+                    }
+
+                    @Override
+                    public void onError(OkHiException exception) {
+
+                    }
+                });
+            }
+            @Override
+            public void onError(OkHiException exception) {
+
+            }
+        });
     }
 }
