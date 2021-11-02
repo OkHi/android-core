@@ -98,35 +98,57 @@ public class OkHiPermissionService {
         requestPermission(permissions, Constant.BACKGROUND_LOCATION_PERMISSION_REQUEST_CODE, rationalPermission, rationaleTitle, rationaleMessage, handler);
     }
 
+    public void requestBackgroundLocationPermission(OkHiRequestHandler<Boolean> handler) {
+        if (isBackgroundLocationPermissionGranted(activity)) {
+            handler.onResult(true);
+            return;
+        }
+        String[] permissions = new String[getBackgroundLocationPermissions().size()];
+        permissions = getBackgroundLocationPermissions().toArray(permissions);
+        String rationalPermission = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q ? Manifest.permission.ACCESS_BACKGROUND_LOCATION : Manifest.permission.ACCESS_FINE_LOCATION;
+        requestPermission(permissions, Constant.BACKGROUND_LOCATION_PERMISSION_REQUEST_CODE, rationalPermission, null, null, handler);
+    }
+
+    public void requestLocationPermission(final OkHiRequestHandler<Boolean> handler) {
+        if (isLocationPermissionGranted(activity)) {
+            handler.onResult(true);
+            return;
+        }
+        String[] permissions = new String[getLocationPermissions().size()];
+        permissions = getLocationPermissions().toArray(permissions);
+        requestPermission(permissions, Constant.LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, null, null, handler);
+    }
+
     private void requestPermission(final String[] permissions, final int permissionRequestCode, String rationalPermission, String rationaleTitle, String rationaleMessage, OkHiRequestHandler<Boolean> handler) {
         this.requestHandler = handler;
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, rationalPermission)) {
-            new AlertDialog.Builder(activity)
-                    .setTitle(rationaleTitle)
-                    .setMessage(rationaleMessage)
-                    .setPositiveButton(Constant.PERMISSION_DIALOG_POSITIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //Prompt the user once explanation has been shown
-                            ActivityCompat.requestPermissions(activity, permissions, permissionRequestCode);
-                        }
-                    })
-                    .setNegativeButton(Constant.PERMISSION_DIALOG_NEGATIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestHandler.onResult(false);
-                        }
-                    })
-                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            requestHandler.onResult(false);
-                        }
-                    })
-                    .create()
-                    .show();
-        } else {
+        boolean shouldShowRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, rationalPermission);
+        if (!shouldShowRationale || (rationaleTitle == null || rationaleMessage == null)) {
             ActivityCompat.requestPermissions(activity, permissions, permissionRequestCode);
+        } else {
+            new AlertDialog.Builder(activity)
+              .setTitle(rationaleTitle)
+              .setMessage(rationaleMessage)
+              .setPositiveButton(Constant.PERMISSION_DIALOG_POSITIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialogInterface, int i) {
+                      //Prompt the user once explanation has been shown
+                      ActivityCompat.requestPermissions(activity, permissions, permissionRequestCode);
+                  }
+              })
+              .setNegativeButton(Constant.PERMISSION_DIALOG_NEGATIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                      requestHandler.onResult(false);
+                  }
+              })
+              .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                  @Override
+                  public void onCancel(DialogInterface dialog) {
+                      requestHandler.onResult(false);
+                  }
+              })
+              .create()
+              .show();
         }
     }
 }
