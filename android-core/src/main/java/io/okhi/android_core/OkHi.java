@@ -46,6 +46,14 @@ public class OkHi {
         permissionService.requestLocationPermission(rationaleTitle, rationaleMessage, handler);
     }
 
+    public void requestLocationPermission(final OkHiRequestHandler<Boolean> handler) {
+        permissionService.requestLocationPermission(handler);
+    }
+
+    public void requestBackgroundLocationPermission(final OkHiRequestHandler<Boolean> handler) {
+        permissionService.requestBackgroundLocationPermission(handler);
+    }
+
     public void requestBackgroundLocationPermission(@NonNull String rationaleTitle, @NonNull String rationaleMessage, final OkHiRequestHandler<Boolean> handler) {
         permissionService.requestBackgroundLocationPermission(rationaleTitle, rationaleMessage, handler);
     }
