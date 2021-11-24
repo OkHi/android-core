@@ -41,3 +41,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 app/src/main/java/io/okhi/okhiandroidcore/Secret.java
+.idea/deploymentTargetDropDown.xml
+.gitignore
+.idea/misc.xml
