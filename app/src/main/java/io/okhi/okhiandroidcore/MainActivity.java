@@ -110,4 +110,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void handleLocationPerm(View view) {
+
+    }
 }
