@@ -44,3 +44,5 @@ app/src/main/java/io/okhi/okhiandroidcore/Secret.java
 .idea/deploymentTargetDropDown.xml
 .gitignore
 .idea/misc.xml
+.idea/runConfigurations.xml
+.idea/gradle.xml
