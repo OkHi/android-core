@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import io.okhi.android_core.interfaces.OkHiPermissionHandler;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
 import io.okhi.android_core.models.OkHiLocationService;
 import io.okhi.android_core.models.OkHiPermissionService;
@@ -67,7 +68,11 @@ public class OkHi {
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults, null);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults, @NonNull OkHiPermissionHandler handler) {
+        permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults, handler);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

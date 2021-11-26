@@ -14,6 +14,8 @@ import androidx.core.app.ActivityCompat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import io.okhi.android_core.interfaces.OkHiPermission;
+import io.okhi.android_core.interfaces.OkHiPermissionHandler;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
 
 public class OkHiPermissionService {
@@ -25,25 +27,35 @@ public class OkHiPermissionService {
         this.activity = activity;
     }
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestHandler == null) return;
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults, OkHiPermissionHandler permissionHandler) {
+        if (requestHandler == null && permissionHandler == null) return;
+        boolean granted = false;
+        OkHiPermission permission = OkHiPermission.LOCATION_WHEN_IN_USE;
         if (requestCode == Constant.LOCATION_PERMISSION_REQUEST_CODE) {
+            permission = OkHiPermission.LOCATION_WHEN_IN_USE;
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                requestHandler.onResult(true);
+                granted = true;
             } else {
-                requestHandler.onResult(false);
+                granted = false;
             }
         }
         if (requestCode == Constant.BACKGROUND_LOCATION_PERMISSION_REQUEST_CODE) {
+            permission = OkHiPermission.LOCATION_ALWAYS;
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isBackgroundLocationPermissionGranted(activity)) {
-                    requestHandler.onResult(true);
+                    granted = true;
                 } else {
-                    requestHandler.onResult(false);
+                    granted = false;
                 }
             } else {
-                requestHandler.onResult(false);
+                granted = false;
             }
+        }
+        if (permissionHandler != null) {
+            permissionHandler.onPermissionResult(permission, granted);
+        }
+        if (requestHandler != null) {
+            requestHandler.onResult(granted);
         }
     }
 

@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import io.okhi.android_core.OkHi;
+import io.okhi.android_core.interfaces.OkHiPermission;
+import io.okhi.android_core.interfaces.OkHiPermissionHandler;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
 import io.okhi.android_core.models.OkHiAppContext;
 import io.okhi.android_core.models.OkHiAuth;
@@ -83,7 +85,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        okHi.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        okHi.onRequestPermissionsResult(requestCode, permissions, grantResults, new OkHiPermissionHandler() {
+            @Override
+            public void onPermissionResult(OkHiPermission permission, boolean status) {
+                Log.v("Location Perm", permission.toString() + ":" +status);
+            }
+        });
     }
 
     public void handleButtonTap(View v) {
