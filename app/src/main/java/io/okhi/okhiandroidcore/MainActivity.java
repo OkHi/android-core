@@ -18,6 +18,7 @@ import io.okhi.android_core.models.OkHiAppContext;
 import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiDeveloperType;
 import io.okhi.android_core.models.OkHiException;
+import io.okhi.android_core.models.OkHiPermissionService;
 import io.okhi.android_core.models.OkHiPlatformType;
 
 public class MainActivity extends AppCompatActivity {
@@ -120,5 +121,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void handleLocationPerm(View view) {
 
+    }
+
+    public void handleProtectedApps(View view) {
+        try {
+            OkHiPermissionService.openProtectedAppsSettings(this, 12345);
+        } catch (OkHiException e) {
+            Log.e("OkHiException", e.getCode());
+            Log.e("OkHiException", e.getMessage());
+        }
     }
 }
