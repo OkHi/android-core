@@ -172,7 +172,6 @@ public class OkHiPermissionService {
         // TODO: make package name and class name dynamic i.e pull from server
         final String PACKAGE_NAME = "com.transsion.phonemaster";
         final String CLASS_NAME = "com.cyin.himgr.widget.activity.MainSettingGpActivity";
-        final ArrayList<String> transsionDevices = new ArrayList<String>(Arrays.asList("infinix", "tecno", "itel"));
         if (!canOpenProtectedApps()) {
             throw new OkHiException(OkHiException.UNSUPPORTED_DEVICE, "Unable to launch protected apps settings with current device");
         }
