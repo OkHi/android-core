@@ -3,8 +3,11 @@ package io.okhi.android_core.models;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
@@ -162,6 +165,27 @@ public class OkHiPermissionService {
               })
               .create()
               .show();
+        }
+    }
+
+    public static void openProtectedAppsSettings(Activity activity, int requestCode) throws OkHiException {
+        // TODO: make package name and class name dynamic i.e pull from server
+        final String PACKAGE_NAME = "com.transsion.phonemaster";
+        final String CLASS_NAME = "com.cyin.himgr.widget.activity.MainSettingGpActivity";
+        final ArrayList<String> transsionDevices = new ArrayList<String>(Arrays.asList("infinix", "tecno", "itel"));
+        if (!transsionDevices.contains(Build.MANUFACTURER.toLowerCase())) {
+            throw new OkHiException(OkHiException.UNSUPPORTED_DEVICE, "Unable to launch protected apps settings with current device");
+        }
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"Add the application to Protected Apps to enable verification");
+        ComponentName componentName = new ComponentName(PACKAGE_NAME, CLASS_NAME);
+        intent.setComponent(componentName);
+        try {
+            activity.startActivityForResult(intent, requestCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, e.getMessage() != null ? e.getMessage() : OkHiException.UNKNOWN_ERROR_MESSAGE);
         }
     }
 }

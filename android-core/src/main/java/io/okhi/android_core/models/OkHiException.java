@@ -15,6 +15,7 @@ public class OkHiException extends Exception {
     public static final String UNAUTHORIZED_MESSAGE = "Invalid credentials provided";
     public static final String PERMISSION_DENIED_CODE = "permission_denied";
     public static final String SERVICE_UNAVAILABLE_CODE = "service_unavailable";
+    public static final String UNSUPPORTED_DEVICE = "unsupported_device";
 
     private final String code;
     private final String message;
