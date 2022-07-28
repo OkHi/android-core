@@ -173,7 +173,7 @@ public class OkHiPermissionService {
         final String PACKAGE_NAME = "com.transsion.phonemaster";
         final String CLASS_NAME = "com.cyin.himgr.widget.activity.MainSettingGpActivity";
         final ArrayList<String> transsionDevices = new ArrayList<String>(Arrays.asList("infinix", "tecno", "itel"));
-        if (!transsionDevices.contains(Build.MANUFACTURER.toLowerCase())) {
+        if (!canOpenProtectedApps()) {
             throw new OkHiException(OkHiException.UNSUPPORTED_DEVICE, "Unable to launch protected apps settings with current device");
         }
         Intent intent = new Intent();
@@ -187,5 +187,13 @@ public class OkHiPermissionService {
             e.printStackTrace();
             throw new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, e.getMessage() != null ? e.getMessage() : OkHiException.UNKNOWN_ERROR_MESSAGE);
         }
+    }
+
+    public static Boolean canOpenProtectedApps() {
+        final ArrayList<String> transsionDevices = new ArrayList<String>(Arrays.asList("infinix", "tecno", "itel"));
+        if (!transsionDevices.contains(Build.MANUFACTURER.toLowerCase())) {
+            return false;
+        }
+        return true;
     }
 }
