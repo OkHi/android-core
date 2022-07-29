@@ -189,10 +189,10 @@ public class OkHiPermissionService {
     }
 
     public static Boolean canOpenProtectedApps() {
-        final ArrayList<String> transsionDevices = new ArrayList<String>(Arrays.asList("infinix", "tecno", "itel"));
-        if (!transsionDevices.contains(Build.MANUFACTURER.toLowerCase())) {
-            return false;
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        if (manufacturer.contains("infinix") || manufacturer.contains("tecno") || manufacturer.contains("itel")) {
+            return true;
         }
-        return true;
+        return false;
     }
 }
