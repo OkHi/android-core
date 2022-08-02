@@ -176,6 +176,7 @@ public class OkHiPermissionService {
             throw new OkHiException(OkHiException.UNSUPPORTED_DEVICE, "Unable to launch protected apps settings with current device");
         }
         Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"Add the application to Protected Apps to enable verification");
         ComponentName componentName = new ComponentName(PACKAGE_NAME, CLASS_NAME);
