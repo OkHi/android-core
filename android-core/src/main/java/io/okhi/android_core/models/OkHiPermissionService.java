@@ -93,6 +93,16 @@ public class OkHiPermissionService {
         return permission == PackageManager.PERMISSION_GRANTED;
     }
 
+    public static boolean isPackageInstalled(String packageName, Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
     public void requestLocationPermission(String rationaleTitle, String rationaleMessage, final OkHiRequestHandler<Boolean> handler) {
         if (isLocationPermissionGranted(activity)) {
             handler.onResult(true);

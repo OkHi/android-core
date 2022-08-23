@@ -1,6 +1,7 @@
 package io.okhi.android_core;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 
@@ -110,8 +111,6 @@ public class OkHiCore {
             }
         });
     }
-
-
 
     private OkHttpClient getHttpClient() {
         ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
