@@ -1,7 +1,6 @@
 package io.okhi.android_core;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 
