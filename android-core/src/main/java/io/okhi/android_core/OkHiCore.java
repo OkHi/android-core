@@ -111,8 +111,6 @@ public class OkHiCore {
         });
     }
 
-
-
     private OkHttpClient getHttpClient() {
         ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
                 .supportsTlsExtensions(true)
