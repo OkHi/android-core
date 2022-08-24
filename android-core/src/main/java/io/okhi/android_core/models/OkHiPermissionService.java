@@ -25,6 +25,9 @@ public class OkHiPermissionService {
     private Activity activity;
     private OkHiRequestHandler<Boolean> requestHandler;
     private OkHiException exception = new OkHiException(OkHiException.PERMISSION_DENIED_CODE, "Location permission denied");
+    // TODO: make package name and class name dynamic i.e pull from server
+    public final static String PROTECTED_APPS_PACKAGE_NAME = "com.transsion.phonemaster";
+    public final static String PROTECTED_APPS_CLASS_NAME = "com.cyin.himgr.widget.activity.MainSettingGpActivity";
 
     public OkHiPermissionService(Activity activity) {
         this.activity = activity;
@@ -179,17 +182,14 @@ public class OkHiPermissionService {
     }
 
     public static void openProtectedAppsSettings(Activity activity, int requestCode) throws OkHiException {
-        // TODO: make package name and class name dynamic i.e pull from server
-        final String PACKAGE_NAME = "com.transsion.phonemaster";
-        final String CLASS_NAME = "com.cyin.himgr.widget.activity.MainSettingGpActivity";
-        if (!canOpenProtectedApps()) {
+        if (!canOpenProtectedApps(activity.getApplicationContext())) {
             throw new OkHiException(OkHiException.UNSUPPORTED_DEVICE, "Unable to launch protected apps settings with current device");
         }
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"Add the application to Protected Apps to enable verification");
-        ComponentName componentName = new ComponentName(PACKAGE_NAME, CLASS_NAME);
+        ComponentName componentName = new ComponentName(PROTECTED_APPS_PACKAGE_NAME, PROTECTED_APPS_CLASS_NAME);
         intent.setComponent(componentName);
         try {
             activity.startActivityForResult(intent, requestCode);
@@ -199,11 +199,7 @@ public class OkHiPermissionService {
         }
     }
 
-    public static Boolean canOpenProtectedApps() {
-        String manufacturer = Build.MANUFACTURER.toLowerCase();
-        if (manufacturer.contains("infinix") || manufacturer.contains("tecno") || manufacturer.contains("itel")) {
-            return true;
-        }
-        return false;
+    public static Boolean canOpenProtectedApps(Context context) {
+        return isPackageInstalled(PROTECTED_APPS_PACKAGE_NAME, context);
     }
 }
