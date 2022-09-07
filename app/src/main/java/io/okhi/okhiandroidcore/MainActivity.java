@@ -10,6 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import io.okhi.android_core.OkHi;
 import io.okhi.android_core.interfaces.OkHiPermission;
 import io.okhi.android_core.interfaces.OkHiPermissionHandler;
@@ -20,6 +25,7 @@ import io.okhi.android_core.models.OkHiDeveloperType;
 import io.okhi.android_core.models.OkHiException;
 import io.okhi.android_core.models.OkHiPermissionService;
 import io.okhi.android_core.models.OkHiPlatformType;
+import io.okhi.android_core.models.OkPreference;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -121,6 +127,39 @@ public class MainActivity extends AppCompatActivity {
 
     public void handleLocationPerm(View view) {
 
+    }
+
+    public void handleDataAdd(View view){
+
+        try {
+            // Prefix key with address ID
+            //Place 1
+            OkPreference.setItem("name1xuai2345", "Dennis Pritt", this);
+            OkPreference.setItem("id1xuai2345", "1xuai2345",this);
+            OkPreference.setItem("color1xuai2345", "#008000",this);
+
+            //Place 2
+            OkPreference.setItem("nametryuyw6578", "Dennis Oval",this);
+            OkPreference.setItem("idtryuyw6578", "1xuai2345",this);
+            OkPreference.setItem("colortryuyw6578", "#ff1100",this);
+        } catch (OkHiException e) {
+            Log.e("OkHiException", e.toString());
+        }
+    }
+
+    public void handleDataFetch(View view){
+
+        try {
+            String placeName1 = OkPreference.getItem("name1xuai2345",this);
+            String placeColor1 = OkPreference.getItem("color1xuai2345",this);
+            Log.e("Place 1", "Name: " + placeName1 + " Color: " + placeColor1);
+
+            String placeName2 = OkPreference.getItem("nametryuyw6578",this);
+            String placeColor2 = OkPreference.getItem("colortryuyw6578",this);
+            Log.e("Place 2", "Name: " + placeName2 + " Color: " + placeColor2);
+        } catch (OkHiException e) {
+            Log.e("OkHiException", e.toString());
+        }
     }
 
     public void handleProtectedApps(View view) {
