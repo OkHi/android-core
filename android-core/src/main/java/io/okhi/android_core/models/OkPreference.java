@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 public class OkPreference {
 
     public static void setItem(String key, String value, Context context) throws OkHiException {
-
         try {
             SharedPreferences prefs = context.getSharedPreferences(Constant.OKHI_PREFERENCE_NAME, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
@@ -18,7 +17,6 @@ public class OkPreference {
     }
 
     public static String getItem(String key, Context context) throws OkHiException {
-
         try {
             SharedPreferences prefs = context.getSharedPreferences(Constant.OKHI_PREFERENCE_NAME, Context.MODE_PRIVATE);
             String value = prefs.getString(key, "");
