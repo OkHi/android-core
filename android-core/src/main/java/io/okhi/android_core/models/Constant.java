@@ -42,4 +42,6 @@ public class Constant {
     public static final String AUTH_ENV_META_KEY = "io.okhi.core.environment";
     public static final String AUTH_DEVELOPER_META_KEY = "io.okhi.core.developer";
     public static final String AUTH_PLATFORM_META_KEY = "io.okhi.core.platform";
+
+    public static final String PREFERENCE_NAME = "OKHI_ADDRESS_DETAILS";
 }
