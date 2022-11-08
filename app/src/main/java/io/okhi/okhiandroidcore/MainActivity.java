@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         try {
             CoreTest test = new CoreTest(this);
-            test.testAnonymousSignWithPhoneNumber(Secret.TEST_PHONE);
-            test.testAnonymousSignWithUserId(Secret.TEST_USER_ID);
+            test.testAnonymousSignWithPhoneNumber("+245712288371");
+            test.testAnonymousSignWithUserId("Granson");
             // TODO: add in test for fetching current location
             okHi = new OkHi(this);
         } catch (OkHiException exception) {
