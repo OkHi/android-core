@@ -15,7 +15,6 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
-
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -28,12 +27,6 @@ android {
         }
     }
 
-}
-
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
 }
 
 dependencies {
