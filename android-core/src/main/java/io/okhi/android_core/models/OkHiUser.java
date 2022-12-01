@@ -7,12 +7,14 @@ public class OkHiUser {
     private String firstName;
     private String lastName;
     private String id;
+    private String email;
 
     private OkHiUser(OkHiUser.Builder builder) {
         this.phone = builder.phone;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.id = builder.id;
+        this.email = builder.email;
     }
 
     public static class Builder {
@@ -20,6 +22,8 @@ public class OkHiUser {
         private String firstName;
         private String lastName;
         private String id;
+        private String email;
+
         public Builder(@NonNull String phone) {
             this.phone = phone;
         }
@@ -36,6 +40,11 @@ public class OkHiUser {
 
         public Builder withOkHiUserId(String userId) {
             this.id = userId;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
             return this;
         }
 
@@ -58,5 +67,9 @@ public class OkHiUser {
 
     public String getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
