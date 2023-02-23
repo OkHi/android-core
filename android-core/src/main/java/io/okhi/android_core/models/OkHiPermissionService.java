@@ -214,19 +214,17 @@ public class OkHiPermissionService {
     return isPackageInstalled(PROTECTED_APPS_PACKAGE_NAME, context);
   }
 
-  public boolean isPushNotificationPermissionGranted() {
+  public static boolean isNotificationPermissionGranted(Context context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      return ContextCompat.checkSelfPermission(activity, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+      return ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
     } else {
       return true;
     }
   }
 
   public void requestNotificationPermission(OkHiRequestHandler<Boolean> handler) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isPushNotificationPermissionGranted()) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isNotificationPermissionGranted(activity)) {
       handler.onResult(true);
-    } else if (activity == null) {
-      handler.onError(new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "AppCompatActivity has not been initialized."));
     } else {
       requestLocationPermissionHandler = handler;
       requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
