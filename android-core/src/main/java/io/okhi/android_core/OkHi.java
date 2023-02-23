@@ -74,6 +74,10 @@ public class OkHi {
     permissionService.requestNotificationPermission(handler);
   }
 
+  public boolean isPushNotificationPermissionGranted() {
+    return permissionService.isPushNotificationPermissionGranted();
+  }
+
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults, null);
   }
