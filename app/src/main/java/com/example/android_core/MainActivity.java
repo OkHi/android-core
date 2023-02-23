@@ -161,4 +161,18 @@ public class MainActivity extends AppCompatActivity {
       Log.e("OkHiException", e.getMessage());
     }
   }
+
+  public void handlePushNotificationRequest(View view){
+    Log.v("PermissionRequest", "called");
+    okHi.requestNotificationPermission(new OkHiRequestHandler<Boolean>() {
+      @Override
+      public void onResult(Boolean result) {
+        Log.v("PermissionRequest", result + "");
+      }
+      @Override
+      public void onError(OkHiException exception) {
+        exception.printStackTrace();
+      }
+    });
+  }
 }

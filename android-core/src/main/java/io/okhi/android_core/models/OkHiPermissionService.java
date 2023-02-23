@@ -11,7 +11,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,15 +25,23 @@ import io.okhi.android_core.interfaces.OkHiPermissionHandler;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
 
 public class OkHiPermissionService {
-  private Activity activity;
+  private AppCompatActivity activity;
+
   private OkHiRequestHandler<Boolean> requestHandler;
   private OkHiException exception = new OkHiException(OkHiException.PERMISSION_DENIED_CODE, "Location permission denied");
+  private ActivityResultLauncher<String> requestPermissionLauncher = null;
+  private OkHiRequestHandler<Boolean> requestLocationPermissionHandler = null;
   // TODO: make package name and class name dynamic i.e pull from server
   public final static String PROTECTED_APPS_PACKAGE_NAME = "com.transsion.phonemaster";
   public final static String PROTECTED_APPS_CLASS_NAME = "com.cyin.himgr.widget.activity.MainSettingGpActivity";
 
-  public OkHiPermissionService(Activity activity) {
+  public OkHiPermissionService(AppCompatActivity activity) {
     this.activity = activity;
+    requestPermissionLauncher = activity.registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+      if (requestLocationPermissionHandler != null) {
+        requestLocationPermissionHandler.onResult(isGranted);
+      }
+    });
   }
 
   public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults, OkHiPermissionHandler permissionHandler) {
@@ -200,5 +212,24 @@ public class OkHiPermissionService {
 
   public static Boolean canOpenProtectedApps(Context context) {
     return isPackageInstalled(PROTECTED_APPS_PACKAGE_NAME, context);
+  }
+
+  public boolean isPushNotificationPermissionGranted() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      return ContextCompat.checkSelfPermission(activity, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+    } else {
+      return true;
+    }
+  }
+
+  public void requestNotificationPermission(OkHiRequestHandler<Boolean> handler) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isPushNotificationPermissionGranted()) {
+      handler.onResult(true);
+    } else if (activity == null) {
+      handler.onError(new OkHiException(OkHiException.SERVICE_UNAVAILABLE_CODE, "AppCompatActivity has not been initialized."));
+    } else {
+      requestLocationPermissionHandler = handler;
+      requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+    }
   }
 }
