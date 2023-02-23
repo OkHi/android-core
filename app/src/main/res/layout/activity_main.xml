@@ -71,4 +71,15 @@
     android:onClick="handleProtectedApps"
     app:layout_constraintVertical_bias="0.228" />
 
+  <Button
+    android:id="@+id/button4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="13dp"
+    android:text="Notification Perm"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:onClick="handlePushNotificationRequest"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/button3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
