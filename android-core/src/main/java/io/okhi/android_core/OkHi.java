@@ -74,7 +74,7 @@ public class OkHi {
     permissionService.requestNotificationPermission(handler);
   }
 
-  public static boolean isPushNotificationPermissionGranted(@NonNull Context context) {
+  public static boolean isNotificationPermissionGranted(@NonNull Context context) {
     return OkHiPermissionService.isNotificationPermissionGranted(context);
   }
 
