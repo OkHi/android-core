@@ -92,6 +92,8 @@ public class OkHi {
                         public void onResult(Boolean result) {
                           if (result) {
                             handler.onResult(true);
+                          } else {
+                            handleFalseResult(handler, OkHiException.BACKGROUND_LOCATION_PERMISSION_DENIED, "Background location permission denied.");
                           }
                         }
                         @Override
