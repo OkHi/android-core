@@ -17,6 +17,13 @@ public class OkHiException extends Exception {
   public static final String SERVICE_UNAVAILABLE_CODE = "service_unavailable";
   public static final String UNSUPPORTED_DEVICE = "unsupported_device";
 
+  public static final String GOOGLE_PLAY_SERVICES_UNAVAILABLE = "google_play_services_unavailable";
+
+  public static final String LOCATION_PERMISSION_DENIED = "location_permission_denied";
+
+  public static final String BACKGROUND_LOCATION_PERMISSION_DENIED = "background_location_permission_denied";
+
+  public static final String LOCATION_SERVICES_UNAVAILABLE = "background_location_permission_denied";
   private final String code;
   private final String message;
 
