@@ -75,31 +75,25 @@ public class OkHi {
   }
 
   public void requestEnableVerificationServices(@NonNull final OkHiRequestHandler<Boolean> handler) {
-    requestEnableGooglePlayServices(new OkHiRequestHandler<Boolean>() {
+    playService.requestEnableGooglePlayServices(new OkHiRequestHandler<Boolean>() {
       @Override
       public void onResult(Boolean result) {
-        if (!result) {
-          handleFalseResult(handler, OkHiException.GOOGLE_PLAY_SERVICES_UNAVAILABLE,"Goolge Play Services is unavailable.");
-        } else {
-          requestLocationPermission(new OkHiRequestHandler<Boolean>() {
+        if (result) {
+          locationService.requestEnableLocationServices(new OkHiRequestHandler<Boolean>() {
             @Override
             public void onResult(Boolean result) {
-              if (!result) {
-                handleFalseResult(handler, OkHiException.LOCATION_PERMISSION_DENIED, "Location permission denied.");
-              } else {
-                requestBackgroundLocationPermission(new OkHiRequestHandler<Boolean>() {
+              if (result) {
+                permissionService.requestLocationPermission(new OkHiRequestHandler<Boolean>() {
                   @Override
                   public void onResult(Boolean result) {
-                    if (!result) {
-                      handleFalseResult(handler, OkHiException.BACKGROUND_LOCATION_PERMISSION_DENIED, "Background location permission denied.");
-                    } else {
-                      requestEnableLocationServices(new OkHiRequestHandler<Boolean>() {
+                    if (result) {
+                      permissionService.requestBackgroundLocationPermission(new OkHiRequestHandler<Boolean>() {
                         @Override
                         public void onResult(Boolean result) {
-                          if (!result) {
-                            handleFalseResult(handler, OkHiException.LOCATION_SERVICES_UNAVAILABLE,"Location services is unavailable.");
-                          } else {
+                          if (result) {
                             handler.onResult(true);
+                          } else {
+                            handleFalseResult(handler, OkHiException.BACKGROUND_LOCATION_PERMISSION_DENIED, "Background location denied.");
                           }
                         }
                         @Override
@@ -107,6 +101,8 @@ public class OkHi {
                           handler.onError(exception);
                         }
                       });
+                    } else {
+                      handleFalseResult(handler, OkHiException.LOCATION_PERMISSION_DENIED, "Location permission denied.");
                     }
                   }
                   @Override
@@ -114,6 +110,8 @@ public class OkHi {
                     handler.onError(exception);
                   }
                 });
+              } else {
+                handleFalseResult(handler, OkHiException.LOCATION_SERVICES_UNAVAILABLE, "Location services unavailable.");
               }
             }
             @Override
@@ -121,6 +119,8 @@ public class OkHi {
               handler.onError(exception);
             }
           });
+        } else {
+          handleFalseResult(handler, OkHiException.GOOGLE_PLAY_SERVICES_UNAVAILABLE, "Google Play services unavailable.");
         }
       }
       @Override
