@@ -55,6 +55,12 @@ public class OkHiPermissionService {
       } else {
         granted = false;
       }
+      if (permissionHandler != null) {
+        permissionHandler.onPermissionResult(permission, granted);
+      }
+      if (requestHandler != null) {
+        requestHandler.onResult(granted);
+      }
     }
     if (requestCode == Constant.BACKGROUND_LOCATION_PERMISSION_REQUEST_CODE) {
       permission = OkHiPermission.LOCATION_ALWAYS;
@@ -67,12 +73,12 @@ public class OkHiPermissionService {
       } else {
         granted = false;
       }
-    }
-    if (permissionHandler != null) {
-      permissionHandler.onPermissionResult(permission, granted);
-    }
-    if (requestHandler != null) {
-      requestHandler.onResult(granted);
+      if (permissionHandler != null) {
+        permissionHandler.onPermissionResult(permission, granted);
+      }
+      if (requestHandler != null) {
+        requestHandler.onResult(granted);
+      }
     }
   }
 
