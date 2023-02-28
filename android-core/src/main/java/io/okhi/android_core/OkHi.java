@@ -74,6 +74,66 @@ public class OkHi {
     permissionService.requestNotificationPermission(handler);
   }
 
+  public void requestEnableVerificationServices(@NonNull final OkHiRequestHandler<Boolean> handler) {
+    requestEnableGooglePlayServices(new OkHiRequestHandler<Boolean>() {
+      @Override
+      public void onResult(Boolean result) {
+        if (!result) {
+          handleFalseResult(handler, OkHiException.GOOGLE_PLAY_SERVICES_UNAVAILABLE,"Goolge Play Services is unavailable.");
+        } else {
+          requestLocationPermission(new OkHiRequestHandler<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+              if (!result) {
+                handleFalseResult(handler, OkHiException.LOCATION_PERMISSION_DENIED, "Location permission denied.");
+              } else {
+                requestBackgroundLocationPermission(new OkHiRequestHandler<Boolean>() {
+                  @Override
+                  public void onResult(Boolean result) {
+                    if (!result) {
+                      handleFalseResult(handler, OkHiException.BACKGROUND_LOCATION_PERMISSION_DENIED, "Background location permission denied.");
+                    } else {
+                      requestEnableLocationServices(new OkHiRequestHandler<Boolean>() {
+                        @Override
+                        public void onResult(Boolean result) {
+                          if (!result) {
+                            handleFalseResult(handler, OkHiException.LOCATION_SERVICES_UNAVAILABLE,"Location services is unavailable.");
+                          } else {
+                            handler.onResult(true);
+                          }
+                        }
+                        @Override
+                        public void onError(OkHiException exception) {
+                          handler.onError(exception);
+                        }
+                      });
+                    }
+                  }
+                  @Override
+                  public void onError(OkHiException exception) {
+                    handler.onError(exception);
+                  }
+                });
+              }
+            }
+            @Override
+            public void onError(OkHiException exception) {
+              handler.onError(exception);
+            }
+          });
+        }
+      }
+      @Override
+      public void onError(OkHiException exception) {
+        handler.onError(exception);
+      }
+    });
+  }
+
+  private void handleFalseResult(OkHiRequestHandler<Boolean> handler, String code, String message) {
+    handler.onError(new OkHiException(code, message));
+  }
+
   public static boolean isNotificationPermissionGranted(@NonNull Context context) {
     return OkHiPermissionService.isNotificationPermissionGranted(context);
   }
