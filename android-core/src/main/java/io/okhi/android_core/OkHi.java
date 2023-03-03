@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import io.okhi.android_core.interfaces.OkHiPermissionHandler;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
@@ -20,7 +19,7 @@ public class OkHi {
   private final OkHiPlayService playService;
   private final OkHiLocationService locationService;
 
-  public OkHi(@NonNull AppCompatActivity activity) {
+  public OkHi(@NonNull Activity activity) {
     permissionService = new OkHiPermissionService(activity);
     playService = new OkHiPlayService(activity);
     locationService = new OkHiLocationService(activity);
@@ -68,10 +67,6 @@ public class OkHi {
 
   public void requestEnableLocationServices(@NonNull final OkHiRequestHandler<Boolean> handler) {
     locationService.requestEnableLocationServices(handler);
-  }
-
-  public void requestNotificationPermission(@NonNull final OkHiRequestHandler<Boolean> handler) {
-    permissionService.requestNotificationPermission(handler);
   }
 
   public void requestEnableVerificationServices(@NonNull final OkHiRequestHandler<Boolean> handler) {
@@ -132,10 +127,6 @@ public class OkHi {
 
   private void handleFalseResult(OkHiRequestHandler<Boolean> handler, String code, String message) {
     handler.onError(new OkHiException(code, message));
-  }
-
-  public static boolean isNotificationPermissionGranted(@NonNull Context context) {
-    return OkHiPermissionService.isNotificationPermissionGranted(context);
   }
 
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
