@@ -31,8 +31,8 @@ public class OkHi {
     OkPreference.setItem("firebaseToken", token, context);
   }
 
-  public static void getFirebaseToken(Context context) throws OkHiException {
-    OkPreference.getItem("firebaseToken", context);
+  public static String getFirebaseToken(Context context) throws OkHiException {
+    return OkPreference.getItem("firebaseToken", context);
   }
 
   public static boolean isLocationPermissionGranted(@NonNull Context context) {
