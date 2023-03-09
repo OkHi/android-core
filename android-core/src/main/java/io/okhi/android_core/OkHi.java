@@ -14,6 +14,7 @@ import io.okhi.android_core.models.OkHiException;
 import io.okhi.android_core.models.OkHiLocationService;
 import io.okhi.android_core.models.OkHiPermissionService;
 import io.okhi.android_core.models.OkHiPlayService;
+import io.okhi.android_core.models.OkPreference;
 
 public class OkHi {
   private final OkHiPermissionService permissionService;
@@ -24,6 +25,14 @@ public class OkHi {
     permissionService = new OkHiPermissionService(activity);
     playService = new OkHiPlayService(activity);
     locationService = new OkHiLocationService(activity);
+  }
+
+  public static void saveFirebaseToken(String token, Context context) throws OkHiException {
+    OkPreference.setItem("firebaseToken", token, context);
+  }
+
+  public static void getFirebaseToken(Context context) throws OkHiException {
+    OkPreference.getItem("firebaseToken", context);
   }
 
   public static boolean isLocationPermissionGranted(@NonNull Context context) {
