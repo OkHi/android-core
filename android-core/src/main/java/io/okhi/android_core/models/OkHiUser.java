@@ -80,7 +80,7 @@ public class OkHiUser {
   public String getEmail() {
     return email;
   }
-  
+
   public String getFcmPushNotificationToken() {
     return fcmPushNotificationToken;
   }
