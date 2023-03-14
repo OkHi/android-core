@@ -8,6 +8,7 @@ public class OkHiUser {
   private String lastName;
   private String id;
   private String email;
+  private String fcmPushNotificationToken;
 
   private OkHiUser(OkHiUser.Builder builder) {
     this.phone = builder.phone;
@@ -15,6 +16,7 @@ public class OkHiUser {
     this.lastName = builder.lastName;
     this.id = builder.id;
     this.email = builder.email;
+    this.fcmPushNotificationToken = builder.fcmPushNotificationToken;
   }
 
   public static class Builder {
@@ -23,6 +25,7 @@ public class OkHiUser {
     private String lastName;
     private String id;
     private String email;
+    private String fcmPushNotificationToken;
 
     public Builder(@NonNull String phone) {
       this.phone = phone;
@@ -45,6 +48,11 @@ public class OkHiUser {
 
     public Builder withEmail(String email) {
       this.email = email;
+      return this;
+    }
+
+    public Builder withFcmPushNotificationToken(String token) {
+      this.fcmPushNotificationToken = token;
       return this;
     }
 
@@ -71,5 +79,9 @@ public class OkHiUser {
 
   public String getEmail() {
     return email;
+  }
+
+  public String getFcmPushNotificationToken() {
+    return fcmPushNotificationToken;
   }
 }
