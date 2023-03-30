@@ -76,6 +76,7 @@ public class OkHiCore {
     try {
       final String key = "okhi:" + prefix + ":token";
       OkPreference.setItem(key, token, context);
+      OkPreference.setItem("okhi:recent:token", token, context);
     } catch (OkHiException e) {
       e.printStackTrace();
     }
