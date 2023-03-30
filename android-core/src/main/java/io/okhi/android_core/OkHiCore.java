@@ -18,6 +18,7 @@ import io.okhi.android_core.models.Constant;
 import io.okhi.android_core.models.OkHiAuth;
 import io.okhi.android_core.models.OkHiException;
 import io.okhi.android_core.models.OkHiMode;
+import io.okhi.android_core.models.OkPreference;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CipherSuite;
@@ -34,6 +35,8 @@ public class OkHiCore {
   private String BASE_URL;
   protected OkHiAuth auth;
 
+  private Context context;
+
   public OkHiCore(@NonNull OkHiAuth auth) {
     this.auth = auth;
     if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
@@ -46,6 +49,7 @@ public class OkHiCore {
   }
 
   public OkHiCore(@NonNull Context context) throws OkHiException {
+    this.context = context;
     this.auth = new OkHiAuth.Builder(context).build();
     if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
       BASE_URL = Constant.DEV_BASE_URL;
@@ -56,13 +60,48 @@ public class OkHiCore {
     }
   }
 
+  private String fetchSavedToken(String prefix) {
+    if (context == null) return null;
+    try {
+      final String key = "okhi:" + prefix + ":token";
+      return OkPreference.getItem(key, context);
+    } catch (OkHiException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  private void saveToken(String prefix, String token) {
+    if (context == null) return;
+    try {
+      final String key = "okhi:" + prefix + ":token";
+      OkPreference.setItem(key, token, context);
+    } catch (OkHiException e) {
+      e.printStackTrace();
+    }
+  }
+
   protected void anonymousSignWithPhoneNumber(@NonNull String phone, @NonNull String[] scopes, @NonNull final OkHiRequestHandler<String> handler) {
     try {
-      @NonNull
-      JSONObject payload = new JSONObject();
-      payload.put("phone", phone);
-      payload.put("scopes", new JSONArray(scopes));
-      anonymousSign(payload, handler);
+      final String existingToken = fetchSavedToken(phone);
+      if (existingToken != null) {
+        handler.onResult(existingToken);
+      } else {
+        JSONObject payload = new JSONObject();
+        payload.put("phone", phone);
+        payload.put("scopes", new JSONArray(scopes));
+        anonymousSign(payload, new OkHiRequestHandler<String>() {
+          @Override
+          public void onResult(String result) {
+            saveToken(phone, result);
+            handler.onResult(result);
+          }
+          @Override
+          public void onError(OkHiException exception) {
+            handler.onError(exception);
+          }
+        });
+      }
     } catch (Exception e) {
       handler.onError(new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, OkHiException.UNKNOWN_ERROR_MESSAGE));
     }
@@ -70,10 +109,25 @@ public class OkHiCore {
 
   protected void anonymousSignInWithUserId(@NonNull String userId, @NonNull String[] scopes, @NonNull final OkHiRequestHandler<String> handler) {
     try {
-      JSONObject payload = new JSONObject();
-      payload.put("user_id", userId);
-      payload.put("scopes", new JSONArray(scopes));
-      anonymousSign(payload, handler);
+      final String existingToken = fetchSavedToken(userId);
+      if (existingToken != null) {
+        handler.onResult(existingToken);
+      } else {
+        JSONObject payload = new JSONObject();
+        payload.put("user_id", userId);
+        payload.put("scopes", new JSONArray(scopes));
+        anonymousSign(payload, new OkHiRequestHandler<String>() {
+          @Override
+          public void onResult(String result) {
+            saveToken(userId, result);
+            handler.onResult(result);
+          }
+          @Override
+          public void onError(OkHiException exception) {
+            handler.onError(exception);
+          }
+        });
+      }
     } catch (Exception e) {
       handler.onError(new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, OkHiException.UNKNOWN_ERROR_MESSAGE));
     }
