@@ -57,7 +57,7 @@ publishing {
             groupId libraryGroupId
             version libraryVersion
             artifactId libraryArtifactId
-            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+            artifact("$buildDir/outputs/aar/android-${artifactId}-release.aar")
         }
     }
 }
@@ -66,9 +66,9 @@ artifactory {
     contextUrl = artifactory_context_url
     publish {
         repository {
-            repoKey = 'maven-dev'
+            repoKey = artifactory_repo_key
             username = artifactory_username
-            password = artifactory_repo_key
+            password = artifactory_password
         }
         defaults {
             publications('aar')
