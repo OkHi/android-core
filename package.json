@@ -1,0 +1,11 @@
+{
+  "name": "android-core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/OkHi/android-core.git",
+  "author": "Julius Kiano <jgkiano@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "pub": "./gradlew assembleRelease artifactoryPublish"
+  }
+}
