@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def libraryNamespace = 'io.okhi.android.core'
-def libraryCompileSdk = 33
-def libraryMinSdk = 19
-def libraryTargetSdk = 33
+def libraryNamespace = 'io.okhi.android_core'
 def libraryGroupId = 'io.okhi.android'
 def libraryArtifactId = 'core'
+def libraryCompileSdk = 33
+def libraryTargetSdk = 33
+def libraryMinSdk = 19
 def libraryVersionCode = 1
 def libraryVersion = '1.7.6'
 
