@@ -6,6 +6,6 @@
   "author": "Julius Kiano <jgkiano@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "pub": "./gradlew assembleRelease artifactoryPublish"
+    "pub": "./gradlew clean && ./gradlew assembleRelease && ./gradlew artifactoryPublish"
   }
 }
