@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 
 def libraryNamespace = 'io.okhi.android_core'
 def libraryGroupId = 'io.okhi.android'
-def libraryArtifactId = 'core'
+def libraryArtifactId = 'core-dev'
 def libraryCompileSdk = 33
 def libraryTargetSdk = 33
 def libraryMinSdk = 19
@@ -57,7 +57,7 @@ publishing {
             groupId libraryGroupId
             version libraryVersion
             artifactId libraryArtifactId
-            artifact("$buildDir/outputs/aar/android-${artifactId}-release.aar")
+            artifact("$buildDir/outputs/aar/android-core-release.aar")
         }
     }
 }
