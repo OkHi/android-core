@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 
 def libraryNamespace = 'io.okhi.android_core'
 def libraryGroupId = 'io.okhi.android'
-def libraryArtifactId = 'core-dev'
+def libraryArtifactId = 'core'
 def libraryCompileSdk = 33
 def libraryTargetSdk = 33
 def libraryMinSdk = 19
