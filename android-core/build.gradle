@@ -57,7 +57,7 @@ publishing {
             groupId libraryGroupId
             version libraryVersion
             artifactId libraryArtifactId
-            artifact("$buildDir/outputs/aar/android-${artifactId}-release.aar")
+            artifact("$buildDir/outputs/aar/android-core-release.aar")
         }
     }
 }
