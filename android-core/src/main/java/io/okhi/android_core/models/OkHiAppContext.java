@@ -98,4 +98,15 @@ public class OkHiAppContext {
   public String getPlatform() {
     return platform;
   }
+
+  public static String getEnv(Context context) {
+    try {
+      ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+      Bundle bundle = app.metaData;
+      return bundle.getString(Constant.AUTH_ENV_META_KEY, null);
+    } catch (PackageManager.NameNotFoundException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
 }

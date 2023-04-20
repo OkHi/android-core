@@ -1,14 +1,27 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+def libraryNamespace = 'io.okhi.android_core'
+def libraryGroupId = 'io.okhi.android'
+def libraryArtifactId = 'core'
+def libraryCompileSdk = 33
+def libraryTargetSdk = 33
+def libraryMinSdk = 19
+def libraryVersionCode = 1
+def libraryVersion = '1.7.9'
+
+
 
 android {
-    namespace 'io.okhi.android_core'
-    compileSdk 33
+    namespace libraryNamespace
+    compileSdk libraryCompileSdk
 
     defaultConfig {
-        minSdk 19
-        targetSdk 33
-        versionCode 1
-        versionName "1.7.6"
+        minSdk libraryMinSdk
+        targetSdk libraryTargetSdk
+        versionCode libraryVersionCode
+        versionName libraryVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -27,7 +40,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.8.0'
     testImplementation 'junit:junit:4.13.2'
@@ -36,5 +48,34 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation ("com.squareup.okhttp3:okhttp:3.12.12"){
         force = true //API 19 support
+    }
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId libraryGroupId
+            version libraryVersion
+            artifactId libraryArtifactId
+            artifact("$buildDir/outputs/aar/android-${artifactId}-release.aar")
+        }
+    }
+}
+
+artifactory {
+    contextUrl = artifactory_context_url
+    publish {
+        repository {
+            repoKey = artifactory_repo_key
+            username = artifactory_username
+            password = artifactory_password
+        }
+        defaults {
+            publications('aar')
+            publishArtifacts = true
+
+            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+            publishPom = true
+        }
     }
 }
