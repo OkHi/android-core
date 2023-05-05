@@ -1,9 +1,12 @@
 package com.example.android_core;
 
+import static io.okhi.android_core.models.OkHiCoreUtil.getAllInstalledApps;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -139,18 +142,19 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void handleDataFetch(View view){
+    getAllInstalledApps(MainActivity.this);
 
-    try {
-      String placeName1 = OkPreference.getItem("name1xuai2345",this);
-      String placeColor1 = OkPreference.getItem("color1xuai2345",this);
-      Log.e("Place 1", "Name: " + placeName1 + " Color: " + placeColor1);
-
-      String placeName2 = OkPreference.getItem("nametryuyw6578",this);
-      String placeColor2 = OkPreference.getItem("colortryuyw6578",this);
-      Log.e("Place 2", "Name: " + placeName2 + " Color: " + placeColor2);
-    } catch (OkHiException e) {
-      Log.e("OkHiException", e.toString());
-    }
+//    try {
+//      String placeName1 = OkPreference.getItem("name1xuai2345",this);
+//      String placeColor1 = OkPreference.getItem("color1xuai2345",this);
+//      Log.e("Place 1", "Name: " + placeName1 + " Color: " + placeColor1);
+//
+//      String placeName2 = OkPreference.getItem("nametryuyw6578",this);
+//      String placeColor2 = OkPreference.getItem("colortryuyw6578",this);
+//      Log.e("Place 2", "Name: " + placeName2 + " Color: " + placeColor2);
+//    } catch (OkHiException e) {
+//      Log.e("OkHiException", e.toString());
+//    }
   }
 
   public void handleProtectedApps(View view) {
