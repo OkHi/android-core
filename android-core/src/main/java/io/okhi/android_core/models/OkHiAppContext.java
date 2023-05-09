@@ -132,13 +132,18 @@ public class OkHiAppContext {
 
   public static String getEnv(Context context) {
     try {
-      ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-      Bundle bundle = app.metaData;
-      String env = bundle.getString(Constant.AUTH_ENV_META_KEY, null);
-      return env == null ? OkPreference.getItem("okhi:mode", context) : env;
-    } catch (Exception e) {
+      return OkPreference.getItem("okhi:mode", context);
+    } catch (OkHiException e) {
       e.printStackTrace();
       return null;
+    }
+  }
+
+  public static void setEnv(String mode, Context context) {
+    try {
+      OkPreference.setItem("okhi:mode", mode, context);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }
