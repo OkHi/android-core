@@ -134,8 +134,9 @@ public class OkHiAppContext {
     try {
       ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
       Bundle bundle = app.metaData;
-      return bundle.getString(Constant.AUTH_ENV_META_KEY, null);
-    } catch (PackageManager.NameNotFoundException e) {
+      String env = bundle.getString(Constant.AUTH_ENV_META_KEY, null);
+      return env == null ? OkPreference.getItem("okhi:mode", context) : env;
+    } catch (Exception e) {
       e.printStackTrace();
       return null;
     }
