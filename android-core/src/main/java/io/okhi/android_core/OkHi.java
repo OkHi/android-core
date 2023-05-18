@@ -25,6 +25,12 @@ public class OkHi {
     locationService = new OkHiLocationService(activity);
   }
 
+  public OkHi(@NonNull Activity activity) {
+    permissionService = new OkHiPermissionService(activity);
+    playService = new OkHiPlayService(activity);
+    locationService = new OkHiLocationService(activity);
+  }
+
   public static boolean isLocationPermissionGranted(@NonNull Context context) {
     return OkHiPermissionService.isLocationPermissionGranted(context);
   }
