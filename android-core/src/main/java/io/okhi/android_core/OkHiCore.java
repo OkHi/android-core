@@ -3,6 +3,7 @@ package io.okhi.android_core;
 import static io.okhi.android_core.models.OkHiCoreUtil.generateOkHiException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
@@ -37,7 +38,10 @@ public class OkHiCore {
 
   private Context context;
 
+  SharedPreferences prefs;
+
   public OkHiCore(@NonNull OkHiAuth auth) {
+    this.prefs = context.getSharedPreferences(Constant.OKHI_PREFERENCE_NAME, Context.MODE_PRIVATE);
     this.auth = auth;
     if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
       BASE_URL = Constant.DEV_BASE_URL;
@@ -49,6 +53,7 @@ public class OkHiCore {
   }
 
   public OkHiCore(@NonNull Context context) throws OkHiException {
+    this.prefs = context.getSharedPreferences(Constant.OKHI_PREFERENCE_NAME, Context.MODE_PRIVATE);
     this.context = context;
     this.auth = new OkHiAuth.Builder(context).build();
     if (auth.getContext().getMode().equals(Constant.OKHI_DEV_MODE)) {
@@ -60,23 +65,28 @@ public class OkHiCore {
     }
   }
 
-  private String fetchSavedToken(String prefix) {
+  // Testing
+  public OkHiCore(Context context, String testString){
+    this.context = context;
+  }
+
+  public String fetchSavedToken(String prefix) {
     if (context == null) return null;
     try {
       final String key = "okhi:" + prefix + ":token";
-      return OkPreference.getItem(key, context);
+      return new OkPreference(prefs).getItem(key);
     } catch (OkHiException e) {
       e.printStackTrace();
       return null;
     }
   }
 
-  private void saveToken(String prefix, String token) {
+  public void saveToken(String prefix, String token) {
     if (context == null) return;
     try {
       final String key = "okhi:" + prefix + ":token";
-      OkPreference.setItem(key, token, context);
-      OkPreference.setItem("okhi:recent:token", token, context);
+      new OkPreference(prefs).setItem(key, token);
+      new OkPreference(prefs).setItem("okhi:recent:token", token);
     } catch (OkHiException e) {
       e.printStackTrace();
     }

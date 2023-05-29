@@ -5,10 +5,16 @@ import android.content.SharedPreferences;
 
 public class OkPreference {
 
-  public static void setItem(String key, String value, Context context) throws OkHiException {
+  SharedPreferences prefs;
+  SharedPreferences.Editor editor;
+
+  public OkPreference(SharedPreferences sharedPreferences){
+    this.prefs = sharedPreferences;
+    this.editor = sharedPreferences.edit();
+  }
+
+  public void setItem(String key, String value) throws OkHiException {
     try {
-      SharedPreferences prefs = context.getSharedPreferences(Constant.OKHI_PREFERENCE_NAME, Context.MODE_PRIVATE);
-      SharedPreferences.Editor editor = prefs.edit();
       editor.putString(key, value).apply();
     } catch (Exception e) {
       e.printStackTrace();
@@ -16,9 +22,8 @@ public class OkPreference {
     }
   }
 
-  public static String getItem(String key, Context context) throws OkHiException {
+  public String getItem(String key) throws OkHiException {
     try {
-      SharedPreferences prefs = context.getSharedPreferences(Constant.OKHI_PREFERENCE_NAME, Context.MODE_PRIVATE);
       String value = prefs.getString(key, "");
       if(value.isEmpty()){
         return null;
