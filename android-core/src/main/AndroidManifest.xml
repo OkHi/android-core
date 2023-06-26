@@ -2,7 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
   <queries>
     <!-- Add more packages for apps to check for-->
-    <package android:name="string" />
+    <package android:name="com.abegapp" /> <!--Pocket App-->
+    <package android:name="com.vfd.app" /> <!--V App-->
+    <package android:name="com.blackcopper" /> <!--Blackcopper App-->
+    <package android:name="ng.net.swipe.swipe" /> <!--Swipe App-->
+    <package android:name="co.leatherback.leatherbackandroid" /> <!--Leatherback App-->
+    <package android:name="com.raven.raven" /> <!--Raven App-->
+    <package android:name="com.piggybankng.piggy" /> <!--PiggyVest App-->
+    <package android:name="unshelledconsultancy.trybe_one_mobile" /> <!--TrybeOne App-->
+    <package android:name="com.irorun" /> <!--Irorun App-->
+    <package android:name="com.payfi.ng" /> <!--PayFi App-->
+    <package android:name="com.kudabank.app" /> <!--Kuda App-->
+    <package android:name="com.psbcustomer" /> <!--Bank9ja App-->
+    <package android:name="com.sterlingng.sterlingmobile" /> <!--Sterling OneBank App-->
+    <package android:name="com.psbcustomer" /> <!--Bank9ja App-->
   </queries>
 
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>

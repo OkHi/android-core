@@ -36,7 +36,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:onClick="handleDataFetch"
-    android:text="Data Fetch"
+    android:text="Collect all apps"
     app:layout_constraintBottom_toTopOf="@+id/dataStore"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.498"
