@@ -16,12 +16,15 @@ public class OkHiAppContext {
   private String platform;
   private String developer;
   private OkHiAppMeta appMeta;
+  private Context context;
 
   public OkHiAppContext(@NonNull Context context, @NonNull String mode, @NonNull String platform, @NonNull String developer) throws OkHiException {
     this.mode = mode;
     this.platform = platform;
     this.developer = developer;
     this.appMeta = OkHiAppMeta.getAppMeta(context);
+    this.context = context;
+    OkPreference.setItem("okhi:mode", mode, context);
   }
 
   public OkHiAppContext(@NonNull Context context, @NonNull String mode, @NonNull String platform, @NonNull String developer, @NonNull OkHiAppMeta appMeta) {
@@ -29,6 +32,12 @@ public class OkHiAppContext {
     this.platform = platform;
     this.developer = developer;
     this.appMeta = appMeta;
+    this.context = context;
+    try {
+      OkPreference.setItem("okhi:mode", mode, context);
+    } catch (OkHiException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private OkHiAppContext(Builder builder) {
@@ -36,11 +45,18 @@ public class OkHiAppContext {
     this.platform = builder.platform;
     this.developer = builder.developer;
     this.appMeta = builder.appMeta;
+    this.context = builder.context;
+    try {
+      OkPreference.setItem("okhi:mode", mode, builder.context);
+    } catch (OkHiException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public static class Builder {
     private String mode;
     private OkHiAppMeta appMeta;
+    private Context context;
     private String platform = OkHiPlatformType.ANDROID;
     private String developer = OkHiDeveloperType.EXTERNAL;
 
@@ -62,6 +78,7 @@ public class OkHiAppContext {
         if (platform.equals("android") || platform.equals("react-native")) {
           this.platform = platform;
         }
+        this.context = context;
         this.appMeta = OkHiAppMeta.getAppMeta(context);
         this.mode = env;
       } catch (OkHiException e) {
@@ -84,7 +101,21 @@ public class OkHiAppContext {
   }
 
   public String getMode() {
-    return mode;
+    try {
+      return mode == null ? OkPreference.getItem("okhi:mode", context) : this.mode;
+    } catch (OkHiException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public void setMode(String mode) {
+    this.mode = mode;
+    try {
+      OkPreference.setItem("okhi:mode", mode, context);
+    } catch (OkHiException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public OkHiAppMeta getAppMeta() {
@@ -101,12 +132,18 @@ public class OkHiAppContext {
 
   public static String getEnv(Context context) {
     try {
-      ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-      Bundle bundle = app.metaData;
-      return bundle.getString(Constant.AUTH_ENV_META_KEY, null);
-    } catch (PackageManager.NameNotFoundException e) {
+      return OkPreference.getItem("okhi:mode", context);
+    } catch (OkHiException e) {
       e.printStackTrace();
       return null;
+    }
+  }
+
+  public static void setEnv(String mode, Context context) {
+    try {
+      OkPreference.setItem("okhi:mode", mode, context);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }

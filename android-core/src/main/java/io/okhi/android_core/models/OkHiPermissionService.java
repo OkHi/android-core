@@ -25,8 +25,8 @@ import io.okhi.android_core.interfaces.OkHiPermissionHandler;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
 
 public class OkHiPermissionService {
-  private AppCompatActivity activity;
-
+  private Activity activity;
+  private AppCompatActivity appCompatActivity;
   private OkHiRequestHandler<Boolean> requestHandler;
   private OkHiException exception = new OkHiException(OkHiException.PERMISSION_DENIED_CODE, "Location permission denied");
   private ActivityResultLauncher<String> requestPermissionLauncher = null;
@@ -42,6 +42,10 @@ public class OkHiPermissionService {
         requestLocationPermissionHandler.onResult(isGranted);
       }
     });
+  }
+
+  public OkHiPermissionService(Activity activity) {
+    this.activity = activity;
   }
 
   public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults, OkHiPermissionHandler permissionHandler) {
@@ -231,9 +235,11 @@ public class OkHiPermissionService {
   public void requestNotificationPermission(OkHiRequestHandler<Boolean> handler) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isNotificationPermissionGranted(activity)) {
       handler.onResult(true);
-    } else {
+    } else if (requestPermissionLauncher != null) {
       requestLocationPermissionHandler = handler;
       requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+    } else {
+      handler.onError(new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, "Unable to request for notification permission"));
     }
   }
 }
