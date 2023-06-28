@@ -35,7 +35,7 @@ public class OkHiCoreUtil {
                 componentList.add(pkgName);
             }
         }
-
+        // TODO: 28/06/2023 Add an implementation to send the list to the server 
         Log.e("All_apps_list", ":" + componentList);
     }
 
