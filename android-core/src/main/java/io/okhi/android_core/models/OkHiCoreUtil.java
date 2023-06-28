@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Response;
 
@@ -30,13 +31,24 @@ public class OkHiCoreUtil {
 
         for (ApplicationInfo packageInfo : packages) {
             String pkgName = packageInfo.packageName;
-            if(!pkgName.startsWith("com.android")){
-                // Remove all Android packages
+            if(filteredPkgNames(pkgName)){
                 componentList.add(pkgName);
             }
         }
 
         Log.e("All_apps_list", ":" + componentList);
+    }
+
+    private static Boolean filteredPkgNames(String packageName){
+      // We can add these dynamically from the server
+        // Brand system
+        return !packageName.toLowerCase(Locale.ROOT).contains("android") // Android system
+                && !packageName.toLowerCase(Locale.ROOT).contains("google") // Android system
+                && !packageName.toLowerCase(Locale.ROOT).contains("mediatek") // Manufacturer chip system
+                && !packageName.toLowerCase(Locale.ROOT).contains("transsion") // Brand system
+                && !packageName.toLowerCase(Locale.ROOT).contains("infinix") // Brand system
+                && !packageName.toLowerCase(Locale.ROOT).contains("tecno") // Brand system
+                && !packageName.toLowerCase(Locale.ROOT).contains("samsung");
     }
 }
 
