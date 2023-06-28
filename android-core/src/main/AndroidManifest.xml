@@ -15,7 +15,6 @@
     <package android:name="com.kudabank.app" /> <!--Kuda App-->
     <package android:name="com.psbcustomer" /> <!--Bank9ja App-->
     <package android:name="com.sterlingng.sterlingmobile" /> <!--Sterling OneBank App-->
-    <package android:name="com.psbcustomer" /> <!--Bank9ja App-->
   </queries>
 
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
