@@ -29,15 +29,15 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     okHi = new OkHi(this);
-//    try {
-//      CoreTest test = new CoreTest(this);
-//      test.testAnonymousSignWithPhoneNumber(Secret.TEST_PHONE);
-//      test.testAnonymousSignWithUserId(Secret.TEST_USER_ID);
-//      // TODO: add in test for fetching current location
-//      okHi = new OkHi(this);
-//    } catch (OkHiException exception) {
-//      exception.printStackTrace();
-//    }
+    try {
+      CoreTest test = new CoreTest(this);
+      test.testAnonymousSignWithPhoneNumber(Secret.TEST_PHONE);
+      test.testAnonymousSignWithUserId(Secret.TEST_USER_ID);
+      // TODO: add in test for fetching current location
+      okHi = new OkHi(this);
+    } catch (OkHiException exception) {
+      exception.printStackTrace();
+    }
   }
 
   class Handler implements OkHiRequestHandler<Boolean> {
