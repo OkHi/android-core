@@ -3,6 +3,8 @@ package io.okhi.android_core;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -141,6 +143,14 @@ public class OkHi {
 
   public static boolean isNotificationPermissionGranted(@NonNull Context context) {
     return OkHiPermissionService.isNotificationPermissionGranted(context);
+  }
+
+  public static void openAppSettings(@NonNull Context context) {
+    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+    Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+    intent.setData(uri);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.startActivity(intent);
   }
 
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
