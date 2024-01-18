@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -23,11 +24,10 @@ public class OkHiCoreUtil {
     }
   }
 
-    public static void getAllInstalledApps(Context context){
-        List<String> componentList = new ArrayList<>();
+    public static ArrayList<String> getAllInstalledApps(Context context){
+        ArrayList<String> componentList = new ArrayList<>();
         final PackageManager pm = context.getPackageManager();
-        @SuppressLint("QueryPermissionsNeeded")
-        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.DONT_KILL_APP);
 
         for (ApplicationInfo packageInfo : packages) {
             String pkgName = packageInfo.packageName;
@@ -35,13 +35,13 @@ public class OkHiCoreUtil {
                 componentList.add(pkgName);
             }
         }
-        // TODO: 28/06/2023 Add an implementation to send the list to the server 
-        Log.e("All_apps_list", ":" + componentList);
+        // TODO: 28/06/2023 Add an implementation to send the list to the server
+        return componentList;
     }
 
     private static Boolean filteredPkgNames(String packageName){
       // We can add these dynamically from the server
-        // Brand system
+        // Brand & system
         return !packageName.toLowerCase(Locale.ROOT).contains("android") // Android system
                 && !packageName.toLowerCase(Locale.ROOT).contains("google") // Android system
                 && !packageName.toLowerCase(Locale.ROOT).contains("mediatek") // Manufacturer chip system

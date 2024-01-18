@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import io.okhi.android_core.OkHi;
 import io.okhi.android_core.interfaces.OkHiPermission;
 import io.okhi.android_core.interfaces.OkHiPermissionHandler;
@@ -31,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     okHi = new OkHi(this);
     try {
       CoreTest test = new CoreTest(this);
-      test.testAnonymousSignWithPhoneNumber(Secret.TEST_PHONE);
-      test.testAnonymousSignWithUserId(Secret.TEST_USER_ID);
+//      test.testAnonymousSignWithPhoneNumber(Secret.TEST_PHONE);
+//      test.testAnonymousSignWithUserId(Secret.TEST_USER_ID);
       // TODO: add in test for fetching current location
       okHi = new OkHi(this);
     } catch (OkHiException exception) {
@@ -143,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void handleDataFetch(View view){
-    getAllInstalledApps(MainActivity.this);
+    ArrayList<String> installedApps = getAllInstalledApps(MainActivity.this);
+    Log.e("installedApps", "-----------------> " + installedApps);
 
 //    try {
 //      String placeName1 = OkPreference.getItem("name1xuai2345",this);

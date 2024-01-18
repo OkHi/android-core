@@ -7,8 +7,11 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 import io.okhi.android_core.interfaces.OkHiPermissionHandler;
 import io.okhi.android_core.interfaces.OkHiRequestHandler;
+import io.okhi.android_core.models.OkHiCoreUtil;
 import io.okhi.android_core.models.OkHiException;
 import io.okhi.android_core.models.OkHiLocationService;
 import io.okhi.android_core.models.OkHiPermissionService;
@@ -33,6 +36,10 @@ public class OkHi {
 
   public static boolean isLocationPermissionGranted(@NonNull Context context) {
     return OkHiPermissionService.isLocationPermissionGranted(context);
+  }
+
+  public static ArrayList<String> getInstalledApps(@NonNull Context context){
+    return OkHiCoreUtil.getAllInstalledApps(context);
   }
 
   public static boolean isBackgroundLocationPermissionGranted(@NonNull Context context) {
