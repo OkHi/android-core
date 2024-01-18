@@ -1,5 +1,16 @@
 package io.okhi.android_core.models;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import okhttp3.Response;
 
 public class OkHiCoreUtil {
@@ -12,5 +23,32 @@ public class OkHiCoreUtil {
       return new OkHiException(OkHiException.UNKNOWN_ERROR_CODE, OkHiException.UNKNOWN_ERROR_MESSAGE);
     }
   }
+
+    public static ArrayList<String> getAllInstalledApps(Context context){
+        ArrayList<String> componentList = new ArrayList<>();
+        final PackageManager pm = context.getPackageManager();
+        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.DONT_KILL_APP);
+
+        for (ApplicationInfo packageInfo : packages) {
+            String pkgName = packageInfo.packageName;
+            if(filteredPkgNames(pkgName)){
+                componentList.add(pkgName);
+            }
+        }
+        // TODO: 28/06/2023 Add an implementation to send the list to the server
+        return componentList;
+    }
+
+    private static Boolean filteredPkgNames(String packageName){
+      // We can add these dynamically from the server
+        // Brand & system
+        return !packageName.toLowerCase(Locale.ROOT).contains("android") // Android system
+                && !packageName.toLowerCase(Locale.ROOT).contains("google") // Android system
+                && !packageName.toLowerCase(Locale.ROOT).contains("mediatek") // Manufacturer chip system
+                && !packageName.toLowerCase(Locale.ROOT).contains("transsion") // Brand system
+                && !packageName.toLowerCase(Locale.ROOT).contains("infinix") // Brand system
+                && !packageName.toLowerCase(Locale.ROOT).contains("tecno") // Brand system
+                && !packageName.toLowerCase(Locale.ROOT).contains("samsung");
+    }
 }
 
