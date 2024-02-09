@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     namespace 'com.example.android_core'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.android_core"
         minSdk 19
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.7.16"
 
